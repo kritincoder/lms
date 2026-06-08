@@ -802,53 +802,7 @@
     margin: 20px 0;
   }
 
-  /* ══ RESTRICTION POPUP ══ */
-  .restrict-overlay {
-    position: fixed; inset: 0; z-index: 2000;
-    background: rgba(0,0,0,0.7);
-    display: flex; align-items: center; justify-content: center;
-    animation: fadeIn 0.2s ease;
-  }
-  .restrict-box {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 40px 36px;
-    max-width: 380px;
-    width: 90%;
-    text-align: center;
-    box-shadow: var(--shadow-lg);
-    animation: slideUp 0.3s ease;
-  }
-  .restrict-icon { font-size: 44px; margin-bottom: 16px; }
-  .restrict-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 10px;
-  }
-  .restrict-msg {
-    font-size: 14px;
-    color: var(--text2);
-    line-height: 1.6;
-    margin-bottom: 24px;
-  }
-  .restrict-close-btn {
-    padding: 12px 32px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-  }
-  .restrict-close-btn:hover { background: var(--accent2); }
-
-
+  @media (max-width: 768px) {
     .admin-grid { grid-template-columns: 1fr; }
     .admin-content { padding: 20px 16px; }
     .student-content { padding: 20px 16px; }
@@ -1003,7 +957,7 @@
     <div class="video-wrapper" id="videoWrapper">
       <iframe id="videoFrame" allow="autoplay; encrypted-media; fullscreen"
         allowfullscreen
-        sandbox="allow-scripts allow-same-origin"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
         referrerpolicy="origin"></iframe>
     </div>
   </div>
@@ -1016,15 +970,7 @@
   <div class="video-screen-block-sub">Return to this tab to continue watching</div>
 </div>
 
-<!-- ══ RESTRICTION POPUP ══ -->
-<div class="restrict-overlay" id="restrictPopup" style="display:none;">
-  <div class="restrict-box">
-    <div class="restrict-icon">🚫</div>
-    <div class="restrict-title">Access Restricted</div>
-    <div class="restrict-msg">You cannot open this content outside the player. This action is not permitted.</div>
-    <button class="restrict-close-btn" onclick="closeRestrictPopup()">Got it</button>
-  </div>
-</div>
+<!-- ══ EDIT VIDEOS MODAL ══ -->
 <div class="edit-modal-overlay" id="editModal">
   <div class="edit-modal">
     <div class="edit-modal-title">
@@ -1433,37 +1379,8 @@ setInterval(() => {
   } else { devtoolsOpen = false; }
 }, 1000);
 
-// ══════════════════════════════════════
-// BLOCK OPEN IN ONEDRIVE + RESTRICTION POPUP
-// ══════════════════════════════════════
-
-// Override window.open to block any new tab/window from iframe
-const _origOpen = window.open.bind(window);
-window.open = function(url, target, features) {
-  // Block all popups/new tabs when video is playing
-  if (videoPlaying) {
-    showRestrictPopup();
-    return null;
-  }
-  return _origOpen(url, target, features);
-};
-
-// Also intercept any navigation attempt from within the iframe
-window.addEventListener('message', function(e) {
-  // Block any postMessage trying to navigate
-  if (e.data && typeof e.data === 'string' && e.data.includes('navigate')) {
-    showRestrictPopup();
-  }
-});
-
-function showRestrictPopup() {
-  document.getElementById('restrictPopup').style.display = 'flex';
-}
-function closeRestrictPopup() {
-  document.getElementById('restrictPopup').style.display = 'none';
-}
-
-
+// CSS: disable copy
+document.addEventListener('copy', e => e.preventDefault());
 document.addEventListener('cut', e => e.preventDefault());
 
 // Shake animation
