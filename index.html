@@ -989,30 +989,18 @@
 // ══════════════════════════════════════
 const ADMIN = { user: 'admin', pass: 'admin@123' };
 
-// OneDrive embed URLs
-// Format: take the share link, base64-encode it, pass to the embed endpoint
-// This is the correct Microsoft method for embedding OneDrive files in iframes
-
-function makeOneDriveEmbed(shareUrl) {
-  // Microsoft's official embed method:
-  // Base64 encode the share URL, strip padding, prefix with "u!", use as "resid"
-  // Then call: https://onedrive.live.com/embed?cid=...
-  // BUT the simplest working method is just passing the share URL to the embed viewer:
-  const b64 = btoa(shareUrl).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-  return `https://onedrive.live.com/embed?resid=${b64}&authkey=&em=2`;
-}
 
 const VIDEOS = [
-  { id: 1,  title: 'Lecture 1',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQDoWIcvRpTzRJBwVzPij_1qAVxjI7nyxWeOyMcVB1d9270?e=E4vcXI' },
-  { id: 2,  title: 'Lecture 2',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQD17AEzm-MpT634_w6cWijYAQhdwj-GX7HaJ6raxj7P_rg?e=zgRK2U' },
-  { id: 3,  title: 'Lecture 3',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCJXTj3IaTwQKuz9nCdf8ViAbfw4-pAhOmXoLE89qFWSvk?e=o5GZdJ' },
-  { id: 4,  title: 'Lecture 4',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQC-p5_qwgK5QLXp1U-Wg3ELAUVBL-cw1hau8U3i2A-39EY?e=BsF1Ga' },
-  { id: 5,  title: 'Lecture 5',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCv1gsFoscVT71eDvytSqQRAX05fQM-8hI0rj7SZyEdgzk?e=xAEcFz' },
-  { id: 6,  title: 'Lecture 6',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQBquVxaJ5RSSbAxlZ480WYxAede0StKfYWSCqpxpAdwq0c?e=da8JiE' },
-  { id: 7,  title: 'Lecture 7',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQAjevjq9w8bTKjNy7gSNqLxAdBvDQPiMUOndurnWlUxEOQ?e=Ko0zOE' },
-  { id: 8,  title: 'Lecture 8',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQBmXeSvygRBSq9xsHnddoxZAXCOTSeluRkSHpTmOeStBFM?e=BigEr8' },
-  { id: 9,  title: 'Lecture 9',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQDh_37ixFRiTa9jVxGQFdh0ASqnj2aWdcEek7tGecJGi-4?e=u33wa8' },
-  { id: 10, title: 'Lecture 10', share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCPF2yKffdAQZ6Rfr2T2WMmAa7UBAkIdgHX_gCFi3QpZg4?e=Ww6Kap' },
+  { id: 1,  title: 'Lecture 1',  src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQToWIcvRpTzRJBwVzPij_1qAQBjnORVjdpTZX5O4xAD-KI' },
+  { id: 2,  title: 'Lecture 2',  src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQRJWQQQEiWqTYMfsBHQU65sAdczbUykQa9iAihl2xrBphw' },
+  { id: 3,  title: 'Lecture 3',  src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQT17AEzm-MpT634_w6cWijYAbmEZfiv01lGBlomlkqOHrU' },
+  { id: 4,  title: 'Lecture 4',  src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQSJXTj3IaTwQKuz9nCdf8ViAdeuPWA0iqG3djzGMS5Px_g' },
+  { id: 5,  title: 'Lecture 5',  src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQS-p5_qwgK5QLXp1U-Wg3ELAe7BnkpVgaK8QyI7Xy6tCqg' },
+  { id: 6,  title: 'Lecture 6',  src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQSv1gsFoscVT71eDvytSqQRAXq9QseRTXHnD72s4ztaeBQ' },
+  { id: 7,  title: 'Lecture 7',  src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQRquVxaJ5RSSbAxlZ480WYxAew-YDfcMgdoTj8Z8DNMnsw' },
+  { id: 8,  title: 'Lecture 8',  src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQQjevjq9w8bTKjNy7gSNqLxAeLHO23angyVOJgs2hcJxVY' },
+  { id: 9,  title: 'Lecture 9',  src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQTh_37ixFRiTa9jVxGQFdh0AUKfuDrxQ37Jkh5xh0iY450' },
+  { id: 10, title: 'Lecture 10', src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQSPF2yKffdAQZ6Rfr2T2WMmAQc-63u4bxkTb29peI06fzU' },
 ];
 
 // Load students from localStorage
@@ -1303,12 +1291,8 @@ function openVideo(id) {
   document.getElementById('modalTitle').textContent = v.title;
 
   const frame = document.getElementById('videoFrame');
-
-  // OneDrive correct embed method:
-  // Base64-encode the share URL (URL-safe), prefix with "u!", pass as resid
-  const b64 = btoa(v.share).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  const embedUrl = `https://onedrive.live.com/embed?resid=u!${b64}&authkey=&em=2`;
-  frame.src = embedUrl;
+  // Use the embed src directly from OneDrive's own iframe code
+  frame.src = v.src;
 
   document.getElementById('videoModal').classList.add('active');
   videoPlaying = true;
