@@ -60,14 +60,18 @@
     user-select: none;
   }
 
+  /* ── SCROLLBAR ── */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg2); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
+  /* ── PAGES ── */
   .page { display: none; min-height: 100vh; }
   .page.active { display: flex; }
 
-  /* LOGIN */
+  /* ══════════════════════════════════════
+     LOGIN PAGE
+  ══════════════════════════════════════ */
   #loginPage {
     flex-direction: column;
     align-items: center;
@@ -76,21 +80,28 @@
     position: relative;
     overflow: hidden;
   }
-  .login-bg { position: fixed; inset: 0; z-index: 0; background: var(--bg); }
+
+  .login-bg {
+    position: fixed; inset: 0; z-index: 0;
+    background: var(--bg);
+  }
   .login-bg::before {
     content: '';
-    position: absolute; top: -20%; right: -10%;
+    position: absolute;
+    top: -20%; right: -10%;
     width: 600px; height: 600px;
     background: radial-gradient(circle, rgba(200,75,49,0.12) 0%, transparent 70%);
     border-radius: 50%;
   }
   .login-bg::after {
     content: '';
-    position: absolute; bottom: -20%; left: -10%;
+    position: absolute;
+    bottom: -20%; left: -10%;
     width: 500px; height: 500px;
     background: radial-gradient(circle, rgba(232,105,58,0.08) 0%, transparent 70%);
     border-radius: 50%;
   }
+
   .login-card {
     position: relative; z-index: 1;
     background: var(--surface);
@@ -101,153 +112,741 @@
     box-shadow: var(--shadow-lg);
     animation: slideUp 0.5s cubic-bezier(0.4,0,0.2,1);
   }
+
   @keyframes slideUp {
     from { opacity:0; transform: translateY(24px); }
     to { opacity:1; transform: translateY(0); }
   }
-  .brand { text-align: center; margin-bottom: 32px; }
-  .brand-name { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
-  .brand-name span { color: var(--accent); }
-  .brand-tagline { font-size: 13px; color: var(--text3); margin-top: 4px; font-weight: 300; }
-  .tab-switcher { display: flex; background: var(--bg2); border-radius: 10px; padding: 4px; margin-bottom: 28px; gap: 4px; }
-  .tab-btn { flex: 1; padding: 10px; border: none; border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; background: transparent; color: var(--text2); transition: var(--transition); }
-  .tab-btn.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
-  .form-group { margin-bottom: 18px; }
-  .form-label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-  .form-input { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--surface2); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; transition: var(--transition); outline: none; }
-  .form-input:focus { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px rgba(200,75,49,0.1); }
-  .btn-primary { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: var(--radius); font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: var(--transition); margin-top: 8px; letter-spacing: 0.3px; }
-  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(200,75,49,0.3); }
-  .btn-primary:active { transform: translateY(0); }
-  .error-msg { background: var(--red-light); color: var(--red); border: 1px solid rgba(200,75,49,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-top: 12px; display: none; text-align: center; }
-  .error-msg.show { display: block; }
-  .theme-toggle-login { position: fixed; top: 20px; right: 20px; z-index: 10; }
-  .theme-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-  .theme-toggle-label { font-size: 12px; font-weight: 500; color: var(--text3); letter-spacing: 0.3px; user-select: none; }
-  .toggle-track { width: 44px; height: 24px; border-radius: 12px; background: var(--bg2); border: 1.5px solid var(--border); position: relative; cursor: pointer; transition: var(--transition); }
-  .toggle-track.on { background: var(--accent); border-color: var(--accent); }
-  .toggle-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--text3); position: absolute; top: 50%; transform: translateY(-50%); left: 3px; transition: var(--transition); box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
-  .toggle-track.on .toggle-thumb { left: calc(100% - 19px); background: white; }
 
-  /* ADMIN */
-  #adminPage { flex-direction: column; min-height: 100vh; }
-  .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
-  .topbar-brand { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
+  .brand {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .brand-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+  .brand-name span { color: var(--accent); }
+  .brand-tagline {
+    font-size: 13px;
+    color: var(--text3);
+    margin-top: 4px;
+    font-weight: 300;
+  }
+
+  .tab-switcher {
+    display: flex;
+    background: var(--bg2);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 28px;
+    gap: 4px;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text2);
+    transition: var(--transition);
+  }
+  .tab-btn.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: var(--shadow);
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+  .form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    transition: var(--transition);
+    outline: none;
+  }
+  .form-input:focus {
+    border-color: var(--accent);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px rgba(200,75,49,0.1);
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(200,75,49,0.3);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  .error-msg {
+    background: var(--red-light);
+    color: var(--red);
+    border: 1px solid rgba(200,75,49,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-top: 12px;
+    display: none;
+    text-align: center;
+  }
+  .error-msg.show { display: block; }
+
+  .theme-toggle-login {
+    position: fixed;
+    top: 20px; right: 20px;
+    z-index: 10;
+  }
+
+  /* ══════════════════════════════════════
+     THEME TOGGLE BUTTON
+  ══════════════════════════════════════ */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .theme-toggle-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text3);
+    letter-spacing: 0.3px;
+    user-select: none;
+  }
+  .toggle-track {
+    width: 44px; height: 24px;
+    border-radius: 12px;
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    position: relative;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .toggle-track.on {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .toggle-thumb {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--text3);
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    left: 3px;
+    transition: var(--transition);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  .toggle-track.on .toggle-thumb {
+    left: calc(100% - 19px);
+    background: white;
+  }
+
+  /* ══════════════════════════════════════
+     ADMIN PANEL
+  ══════════════════════════════════════ */
+  #adminPage {
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  .topbar-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
   .topbar-brand span { color: var(--accent); }
   .topbar-right { display: flex; align-items: center; gap: 12px; }
-  .topbar-badge { background: var(--accent-light); color: var(--accent); font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.8px; }
-  .btn-logout { padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; background: transparent; color: var(--text2); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: var(--transition); }
+  .topbar-badge {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .btn-logout {
+    padding: 8px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text2);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+  }
   .btn-logout:hover { border-color: var(--accent); color: var(--accent); }
-  .admin-content { flex: 1; padding: 40px 32px; max-width: 1100px; margin: 0 auto; width: 100%; }
-  .admin-grid { display: grid; grid-template-columns: 380px 1fr; gap: 28px; align-items: start; }
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow); }
-  .card-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-  .card-title-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-  .video-assign-section { margin-top: 18px; }
-  .video-assign-label { font-size: 12px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; display: block; }
-  .video-checkboxes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .video-checkbox-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; background: var(--bg2); cursor: pointer; transition: var(--transition); }
+
+  .admin-content {
+    flex: 1;
+    padding: 40px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .admin-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-title-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .video-assign-section {
+    margin-top: 18px;
+  }
+  .video-assign-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .video-checkboxes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .video-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--bg2);
+    cursor: pointer;
+    transition: var(--transition);
+  }
   .video-checkbox-item:hover { background: var(--accent-light); }
-  .video-checkbox-item input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; }
-  .video-checkbox-item label { font-size: 13px; color: var(--text2); cursor: pointer; }
-  .select-all-row { display: flex; gap: 8px; margin-bottom: 10px; }
-  .btn-sm { padding: 6px 12px; border-radius: 6px; border: 1.5px solid var(--border); background: transparent; color: var(--text2); font-size: 12px; font-weight: 500; cursor: pointer; transition: var(--transition); font-family: 'DM Sans', sans-serif; }
+  .video-checkbox-item input[type="checkbox"] {
+    width: 15px; height: 15px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .video-checkbox-item label {
+    font-size: 13px;
+    color: var(--text2);
+    cursor: pointer;
+  }
+
+  .select-all-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .btn-sm {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
   .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
-  .students-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-  .student-count { font-size: 13px; color: var(--text3); }
+
+  /* STUDENTS TABLE */
+  .students-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .student-count {
+    font-size: 13px;
+    color: var(--text3);
+  }
+
   .student-table { width: 100%; border-collapse: collapse; }
-  .student-table th { text-align: left; font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; padding: 0 12px 12px; border-bottom: 1px solid var(--border); }
-  .student-table td { padding: 14px 12px; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--text); vertical-align: middle; }
+  .student-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 0 12px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .student-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text);
+    vertical-align: middle;
+  }
   .student-table tr:last-child td { border-bottom: none; }
   .student-table tr:hover td { background: var(--bg2); }
-  .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
-  .status-badge.active { background: var(--green-light); color: var(--green); }
-  .status-badge.disabled { background: var(--bg2); color: var(--text3); }
-  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .status-badge.active {
+    background: var(--green-light);
+    color: var(--green);
+  }
+  .status-badge.disabled {
+    background: var(--bg2);
+    color: var(--text3);
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
   .action-btns { display: flex; gap: 6px; }
-  .btn-action { padding: 5px 12px; border-radius: 6px; border: 1.5px solid var(--border); background: transparent; font-size: 12px; font-weight: 500; cursor: pointer; transition: var(--transition); font-family: 'DM Sans', sans-serif; }
+  .btn-action {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
   .btn-enable { color: var(--green); border-color: var(--green); }
   .btn-enable:hover { background: var(--green-light); }
   .btn-disable { color: var(--text2); }
   .btn-disable:hover { border-color: var(--text2); color: var(--text); }
   .btn-delete { color: var(--red); border-color: rgba(200,75,49,0.3); }
   .btn-delete:hover { background: var(--red-light); border-color: var(--red); }
-  .videos-pill { display: inline-flex; background: var(--accent-light); color: var(--accent); font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; cursor: pointer; transition: var(--transition); }
+
+  .videos-pill {
+    display: inline-flex;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
   .videos-pill:hover { background: var(--accent); color: white; }
-  .empty-state { text-align: center; padding: 48px 24px; color: var(--text3); }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text3);
+  }
   .empty-state-icon { font-size: 40px; margin-bottom: 12px; }
   .empty-state-text { font-size: 14px; }
-  .success-msg { background: var(--green-light); color: var(--green); border: 1px solid rgba(45,106,79,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-top: 12px; display: none; text-align: center; }
+
+  .success-msg {
+    background: var(--green-light);
+    color: var(--green);
+    border: 1px solid rgba(45,106,79,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-top: 12px;
+    display: none;
+    text-align: center;
+  }
   .success-msg.show { display: block; animation: fadeIn 0.3s ease; }
+
   @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
-  /* STUDENT PORTAL */
-  #studentPage { flex-direction: column; min-height: 100vh; }
-  .student-topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
-  .student-welcome { font-size: 13px; color: var(--text2); }
-  .student-welcome strong { color: var(--text); }
-  .student-content { flex: 1; padding: 40px 32px; max-width: 1200px; margin: 0 auto; width: 100%; }
-  .section-header { margin-bottom: 28px; }
-  .section-title { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
-  .section-sub { font-size: 14px; color: var(--text3); margin-top: 4px; }
-  .lectures-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-  .lecture-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: var(--transition); box-shadow: var(--shadow); }
-  .lecture-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
-  .lecture-thumb { height: 140px; background: linear-gradient(135deg, var(--bg2) 0%, var(--border) 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-  .lecture-thumb::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(200,75,49,0.15) 0%, rgba(232,105,58,0.08) 100%); }
-  .play-btn { width: 52px; height: 52px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; transition: var(--transition); box-shadow: 0 4px 16px rgba(200,75,49,0.4); }
-  .play-btn svg { width: 20px; height: 20px; fill: white; margin-left: 3px; }
-  .lecture-card:hover .play-btn { transform: scale(1.1); }
-  .lecture-num { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.5); color: white; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; letter-spacing: 0.5px; }
-  .lecture-info { padding: 18px; }
-  .lecture-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .lecture-meta { font-size: 12px; color: var(--text3); }
-
-  /* VIDEO MODAL */
-  .modal-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.92); align-items: center; justify-content: center; flex-direction: column; padding: 20px; }
-  .modal-overlay.active { display: flex; }
-
-  .video-screen-block { display: none; position: fixed; inset: 0; z-index: 999; background: #000; align-items: center; justify-content: center; flex-direction: column; gap: 16px; color: white; }
-  .video-screen-block.active { display: flex; }
-  .video-screen-block-icon { font-size: 48px; }
-  .video-screen-block-text { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: rgba(255,255,255,0.9); }
-  .video-screen-block-sub { font-size: 14px; color: rgba(255,255,255,0.5); text-align: center; }
-
-  .modal-inner { width: 100%; max-width: 960px; position: relative; }
-  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .modal-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: white; }
-
-  /* Modal header controls */
-  .modal-controls { display: flex; align-items: center; gap: 10px; }
-
-  .modal-close { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
-  .modal-close:hover { background: rgba(255,255,255,0.2); }
-
-  /* Fullscreen button */
-  .btn-fullscreen { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
-  .btn-fullscreen:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
-  .btn-fullscreen svg { width: 18px; height: 18px; fill: white; }
-
-  .video-wrapper { width: 100%; aspect-ratio: 16/9; border-radius: var(--radius); overflow: hidden; background: #000; position: relative; }
-  .video-wrapper iframe { width: 100%; height: 100%; border: none; pointer-events: auto; }
-
-  /* Protective overlay — blocks right-click on iframe, blocks URL bar reveal */
-  .video-overlay-shield {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    background: transparent;
-    pointer-events: none; /* allows clicks through to video controls */
+  /* ══════════════════════════════════════
+     STUDENT PORTAL
+  ══════════════════════════════════════ */
+  #studentPage {
+    flex-direction: column;
+    min-height: 100vh;
   }
 
-  /* EDIT MODAL */
-  .edit-modal-overlay { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; padding: 20px; }
+  .student-topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  .student-welcome {
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .student-welcome strong { color: var(--text); }
+
+  .student-content {
+    flex: 1;
+    padding: 40px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .section-header {
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+  .section-sub {
+    font-size: 14px;
+    color: var(--text3);
+    margin-top: 4px;
+  }
+
+  .lectures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .lecture-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+  }
+  .lecture-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent);
+  }
+
+  .lecture-thumb {
+    height: 140px;
+    background: linear-gradient(135deg, var(--bg2) 0%, var(--border) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .lecture-thumb::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(200,75,49,0.15) 0%, rgba(232,105,58,0.08) 100%);
+  }
+  .play-btn {
+    width: 52px; height: 52px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 1;
+    transition: var(--transition);
+    box-shadow: 0 4px 16px rgba(200,75,49,0.4);
+  }
+  .play-btn svg { width: 20px; height: 20px; fill: white; margin-left: 3px; }
+  .lecture-card:hover .play-btn { transform: scale(1.1); }
+
+  .lecture-num {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  .lecture-info {
+    padding: 18px;
+  }
+  .lecture-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .lecture-meta {
+    font-size: 12px;
+    color: var(--text3);
+  }
+
+  /* ══════════════════════════════════════
+     VIDEO MODAL
+  ══════════════════════════════════════ */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.92);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+
+  .video-screen-block {
+    display: none;
+    position: fixed; inset: 0; z-index: 999;
+    background: #000;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    color: white;
+  }
+  .video-screen-block.active { display: flex; }
+  .video-screen-block-icon { font-size: 48px; }
+  .video-screen-block-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+  }
+  .video-screen-block-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+  }
+
+  .modal-inner {
+    width: 100%;
+    max-width: 960px;
+    position: relative;
+  }
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+  }
+
+  /* ── MODAL CONTROLS (fullscreen + close grouped) ── */
+  .modal-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* ── FULLSCREEN BUTTON ── */
+  .btn-fullscreen {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition);
+  }
+  .btn-fullscreen:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.5);
+  }
+  .btn-fullscreen svg {
+    width: 18px; height: 18px;
+    fill: white;
+  }
+
+  .modal-close {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition);
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.2); }
+
+  .video-wrapper {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #000;
+    position: relative;
+  }
+  .video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    pointer-events: auto;
+  }
+
+  /* block PiP overlay */
+  .video-wrapper::after {
+    content: '';
+    position: absolute; inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ══════════════════════════════════════
+     EDIT VIDEOS MODAL
+  ══════════════════════════════════════ */
+  .edit-modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
   .edit-modal-overlay.active { display: flex; }
-  .edit-modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; width: 100%; max-width: 420px; box-shadow: var(--shadow-lg); animation: slideUp 0.3s ease; }
-  .edit-modal-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
-  .edit-modal-close { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: var(--transition); }
+  .edit-modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.3s ease;
+  }
+  .edit-modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .edit-modal-close {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: var(--transition);
+  }
   .edit-modal-close:hover { color: var(--text); }
-  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  /* ══════════════════════════════════════
+     UTILS
+  ══════════════════════════════════════ */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+
+  /* Fullscreen: iframe fills screen */
+  #videoWrapper:fullscreen,
+  #videoWrapper:-webkit-full-screen,
+  #videoWrapper:-moz-full-screen,
+  #videoWrapper:-ms-fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    aspect-ratio: unset !important;
+    border-radius: 0 !important;
+  }
+  #videoWrapper:fullscreen iframe,
+  #videoWrapper:-webkit-full-screen iframe,
+  #videoWrapper:-moz-full-screen iframe,
+  #videoWrapper:-ms-fullscreen iframe {
+    width: 100% !important;
+    height: 100% !important;
+  }
 
   @media (max-width: 768px) {
     .admin-grid { grid-template-columns: 1fr; }
@@ -260,13 +859,15 @@
 </head>
 <body>
 
-<!-- LOGIN PAGE -->
+<!-- ══ LOGIN PAGE ══ -->
 <div id="loginPage" class="page active">
   <div class="login-bg"></div>
   <div class="theme-toggle-login">
     <div class="theme-toggle" onclick="toggleTheme()">
       <span class="theme-toggle-label" id="loginThemeLabel">Light</span>
-      <div class="toggle-track" id="loginToggle"><div class="toggle-thumb"></div></div>
+      <div class="toggle-track" id="loginToggle">
+        <div class="toggle-thumb"></div>
+      </div>
     </div>
   </div>
   <div class="login-card">
@@ -278,6 +879,8 @@
       <button class="tab-btn active" onclick="switchTab('student')">Student</button>
       <button class="tab-btn" onclick="switchTab('admin')">Admin</button>
     </div>
+
+    <!-- Student Login -->
     <div id="studentLoginForm">
       <div class="form-group">
         <label class="form-label">Username</label>
@@ -290,6 +893,8 @@
       <button class="btn-primary" onclick="studentLogin()">Sign In</button>
       <div class="error-msg" id="studentError">Invalid credentials or account disabled.</div>
     </div>
+
+    <!-- Admin Login -->
     <div id="adminLoginForm" style="display:none;">
       <div class="form-group">
         <label class="form-label">Admin Username</label>
@@ -305,7 +910,7 @@
   </div>
 </div>
 
-<!-- ADMIN PAGE -->
+<!-- ══ ADMIN PAGE ══ -->
 <div id="adminPage" class="page">
   <div class="topbar">
     <div class="topbar-brand">Kreya <span>Courses</span></div>
@@ -313,13 +918,16 @@
       <span class="topbar-badge">Admin</span>
       <div class="theme-toggle" onclick="toggleTheme()">
         <span class="theme-toggle-label" id="adminThemeLabel">Light</span>
-        <div class="toggle-track" id="adminToggle"><div class="toggle-thumb"></div></div>
+        <div class="toggle-track" id="adminToggle">
+          <div class="toggle-thumb"></div>
+        </div>
       </div>
       <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
   </div>
   <div class="admin-content">
     <div class="admin-grid">
+      <!-- Create Student -->
       <div class="card">
         <div class="card-title"><div class="card-title-dot"></div> Create Student</div>
         <div class="form-group">
@@ -343,6 +951,8 @@
         <div class="error-msg" id="createError">Username already exists.</div>
         <div class="success-msg" id="createSuccess">Student created successfully!</div>
       </div>
+
+      <!-- Students List -->
       <div class="card">
         <div class="students-header">
           <div class="card-title" style="margin-bottom:0;"><div class="card-title-dot"></div> Students</div>
@@ -359,7 +969,7 @@
   </div>
 </div>
 
-<!-- STUDENT PAGE -->
+<!-- ══ STUDENT PAGE ══ -->
 <div id="studentPage" class="page">
   <div class="student-topbar">
     <div class="topbar-brand">Kreya <span>Courses</span></div>
@@ -367,7 +977,9 @@
       <div class="student-welcome">Welcome, <strong id="studentName"></strong></div>
       <div class="theme-toggle" onclick="toggleTheme()">
         <span class="theme-toggle-label" id="studentThemeLabel">Light</span>
-        <div class="toggle-track" id="studentToggle"><div class="toggle-thumb"></div></div>
+        <div class="toggle-track" id="studentToggle">
+          <div class="toggle-thumb"></div>
+        </div>
       </div>
       <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
@@ -381,16 +993,15 @@
   </div>
 </div>
 
-<!-- VIDEO MODAL -->
+<!-- ══ VIDEO MODAL ══ -->
 <div class="modal-overlay" id="videoModal">
   <div class="modal-inner">
     <div class="modal-header">
       <div class="modal-title" id="modalTitle">Lecture 1</div>
+      <!-- CHANGED: controls group with fullscreen + close -->
       <div class="modal-controls">
-        <!-- Fullscreen Button -->
-        <button class="btn-fullscreen" onclick="toggleFullscreen()" title="Fullscreen">
+        <button class="btn-fullscreen" onclick="toggleFullscreen()" title="Toggle Fullscreen">
           <svg id="fsIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <!-- Expand icon (default) -->
             <path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zM3 13h2v4h4v2H3v-6zm16 4h-4v2h6v-6h-2v4z"/>
           </svg>
         </button>
@@ -398,25 +1009,26 @@
       </div>
     </div>
     <div class="video-wrapper" id="videoWrapper">
+      <!-- CHANGED: sandbox restricted (no allow-popups-to-escape-sandbox, no allow-downloads)
+           referrerpolicy set to no-referrer to avoid leaking origin
+           allow list trimmed — no presentation, no clipboard -->
       <iframe id="videoFrame"
         allow="autoplay; encrypted-media; fullscreen"
         allowfullscreen
         sandbox="allow-scripts allow-same-origin allow-forms"
         referrerpolicy="no-referrer"></iframe>
-      <!-- Shield overlay: blocks right-click context menu on iframe area -->
-      <div class="video-overlay-shield" id="videoShield"></div>
     </div>
   </div>
 </div>
 
-<!-- VIDEO BLOCKED SCREEN -->
+<!-- ══ VIDEO HIDDEN SCREEN ══ -->
 <div class="video-screen-block" id="videoScreenBlock">
   <div class="video-screen-block-icon">🔒</div>
   <div class="video-screen-block-text">Video Paused</div>
   <div class="video-screen-block-sub">Return to this tab to continue watching</div>
 </div>
 
-<!-- EDIT VIDEOS MODAL -->
+<!-- ══ EDIT VIDEOS MODAL ══ -->
 <div class="edit-modal-overlay" id="editModal">
   <div class="edit-modal">
     <div class="edit-modal-title">
@@ -448,30 +1060,21 @@ const VIDEOS = [
   { id: 10, title: 'Lecture 10', src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQSPF2yKffdAQZ6Rfr2T2WMmAQc-63u4bxkTb29peI06fzU' },
 ];
 
-// ══════════════════════════════════════
-// ONEDRIVE URL CONVERTER
-// Converts share link → embed link with NO toolbar buttons
-// ?action=embedview removes toolbar (share, view in browser, download)
-// ══════════════════════════════════════
+// ── CHANGED: converts raw OneDrive share URL → embed URL
+// appends action=embedview + toolbar-suppression params
+// This hides Share, View in Browser, and Download buttons inside OneDrive player
 function toEmbedUrl(shareUrl) {
-  // If already an embed URL, strip any existing action and re-add embedview
-  if (shareUrl.includes('1drv.ms') || shareUrl.includes('onedrive.live.com') || shareUrl.includes('sharepoint.com')) {
-    // Convert 1drv.ms short link to embed format
-    // We'll load it via a proxy approach: append embed params
-    // OneDrive embed: replace /v/ with /embed/ and add action=embedview
-    let url = shareUrl;
-    // For 1drv.ms short links, we need to use them directly but append embed params
-    // The cleanest approach: use the URL as-is but add parameters that disable toolbar
-    if (url.includes('?')) {
-      url += '&action=embedview&wdAllowInteractivity=False&wdHideToolbar=True&wdDownloadButton=False&wdInConfigurator=True';
-    } else {
-      url += '?action=embedview&wdAllowInteractivity=False&wdHideToolbar=True&wdDownloadButton=False&wdInConfigurator=True';
-    }
-    return url;
-  }
-  return shareUrl;
+  const sep = shareUrl.includes('?') ? '&' : '?';
+  return shareUrl
+    + sep
+    + 'action=embedview'
+    + '&wdAllowInteractivity=False'
+    + '&wdHideToolbar=True'
+    + '&wdDownloadButton=False'
+    + '&wdInConfigurator=True';
 }
 
+// Load students from localStorage
 function loadStudents() {
   try { return JSON.parse(localStorage.getItem('kreya_students') || '[]'); } catch { return []; }
 }
@@ -490,10 +1093,10 @@ document.addEventListener('DOMContentLoaded', () => {
   buildVideoCheckboxes('videoCheckboxes');
   const saved = localStorage.getItem('kreya_theme');
   if (saved === 'dark') setTheme(true);
+  // Enter on inputs
   document.getElementById('studentPass').addEventListener('keydown', e => { if(e.key==='Enter') studentLogin(); });
   document.getElementById('adminPass').addEventListener('keydown', e => { if(e.key==='Enter') adminLogin(); });
-
-  // Fullscreen change listener — sync button icon
+  // Fullscreen change listener
   document.addEventListener('fullscreenchange', onFullscreenChange);
   document.addEventListener('webkitfullscreenchange', onFullscreenChange);
   document.addEventListener('mozfullscreenchange', onFullscreenChange);
@@ -507,10 +1110,12 @@ function setTheme(dark) {
   isDark = dark;
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
   const label = dark ? 'Dark' : 'Light';
+  // Update all toggle tracks
   ['loginToggle','adminToggle','studentToggle'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('on', dark);
   });
+  // Update all labels
   ['loginThemeLabel','adminThemeLabel','studentThemeLabel'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.textContent = label;
@@ -603,9 +1208,11 @@ function buildVideoCheckboxes(containerId, selected=[]) {
     </label>
   `).join('');
 }
+
 function selectAllVideos(val) {
   document.querySelectorAll('#videoCheckboxes input[type="checkbox"]').forEach(cb => cb.checked = val);
 }
+
 function getSelectedVideos(containerId) {
   return Array.from(document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`)).map(cb => parseInt(cb.value));
 }
@@ -620,16 +1227,20 @@ function createStudent() {
   const sucEl = document.getElementById('createSuccess');
   errEl.classList.remove('show');
   sucEl.classList.remove('show');
+
   if (!u || !p) { errEl.textContent = 'Username and password required.'; errEl.classList.add('show'); return; }
+
   const students = loadStudents();
   if (students.find(s => s.username === u)) {
     errEl.textContent = 'Username already exists.';
     errEl.classList.add('show');
     return;
   }
+
   const selected = getSelectedVideos('videoCheckboxes');
   students.push({ username: u, password: p, active: true, videos: selected });
   saveStudents(students);
+
   document.getElementById('newStudentUser').value = '';
   document.getElementById('newStudentPass').value = '';
   selectAllVideos(false);
@@ -679,15 +1290,20 @@ function renderStudentsTable() {
   const c = document.getElementById('studentsTableContainer');
   const countEl = document.getElementById('studentCount');
   countEl.textContent = `${students.length} student${students.length!==1?'s':''}`;
+
   if (!students.length) {
     c.innerHTML = `<div class="empty-state"><div class="empty-state-icon">👤</div><div class="empty-state-text">No students yet.</div></div>`;
     return;
   }
+
   c.innerHTML = `
     <table class="student-table">
       <thead>
         <tr>
-          <th>Username</th><th>Videos</th><th>Status</th><th>Actions</th>
+          <th>Username</th>
+          <th>Videos</th>
+          <th>Status</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -697,7 +1313,8 @@ function renderStudentsTable() {
             <td><span class="videos-pill" onclick="openEditModal('${s.username}')">${s.videos ? s.videos.length : 0} videos ✏️</span></td>
             <td>
               <span class="status-badge ${s.active ? 'active' : 'disabled'}">
-                <span class="status-dot"></span>${s.active ? 'Active' : 'Disabled'}
+                <span class="status-dot"></span>
+                ${s.active ? 'Active' : 'Disabled'}
               </span>
             </td>
             <td>
@@ -743,22 +1360,23 @@ function renderLectures(videoIds) {
 }
 
 // ══════════════════════════════════════
-// VIDEO PLAYER
+// VIDEO PLAYER + SECURITY
 // ══════════════════════════════════════
 function openVideo(id) {
   const v = VIDEOS.find(v => v.id === id);
   if (!v) return;
   document.getElementById('modalTitle').textContent = v.title;
+
   const frame = document.getElementById('videoFrame');
-  // Build embed URL: adds action=embedview to suppress OneDrive toolbar
-  // (hides Share, View in Browser, Download buttons inside the player)
+  // CHANGED: use toEmbedUrl() to suppress OneDrive toolbar (Share, View in Browser, Download)
   frame.src = toEmbedUrl(v.src);
+
   document.getElementById('videoModal').classList.add('active');
   videoPlaying = true;
 }
 
 function closeVideo() {
-  // Exit fullscreen if active
+  // Exit fullscreen if active before closing
   if (document.fullscreenElement || document.webkitFullscreenElement) {
     exitFullscreen();
   }
@@ -769,12 +1387,11 @@ function closeVideo() {
 }
 
 // ══════════════════════════════════════
-// FULLSCREEN
+// FULLSCREEN (NEW)
 // ══════════════════════════════════════
 function toggleFullscreen() {
   const wrapper = document.getElementById('videoWrapper');
   if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-    // Enter fullscreen on the video wrapper
     if (wrapper.requestFullscreen) {
       wrapper.requestFullscreen();
     } else if (wrapper.webkitRequestFullscreen) {
@@ -805,17 +1422,15 @@ function onFullscreenChange() {
   isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement);
   const icon = document.getElementById('fsIcon');
   if (isFullscreen) {
-    // Show compress/exit icon
+    // Compress / exit icon
     icon.innerHTML = '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>';
   } else {
-    // Show expand icon
+    // Expand icon
     icon.innerHTML = '<path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zM3 13h2v4h4v2H3v-6zm16 4h-4v2h6v-6h-2v4z"/>';
   }
 }
 
-// ══════════════════════════════════════
-// SECURITY: TAB / VISIBILITY
-// ══════════════════════════════════════
+// Tab switch detection ONLY via visibilitychange (reliable, doesn't false-trigger on iframe clicks)
 document.addEventListener('visibilitychange', () => {
   if (!videoPlaying) return;
   if (document.hidden) {
@@ -823,66 +1438,58 @@ document.addEventListener('visibilitychange', () => {
     document.getElementById('videoFrame').src = '';
   } else {
     document.getElementById('videoScreenBlock').classList.remove('active');
-    // Do NOT auto-reload — user must reopen the lecture
   }
 });
 
-// ══════════════════════════════════════
-// SECURITY: KEYBOARD BLOCKS
-// ══════════════════════════════════════
+// Escape key handling
 document.addEventListener('keydown', e => {
-  // Escape while playing — pause video
   if (e.key === 'Escape' && videoPlaying && !isFullscreen) {
     document.getElementById('videoScreenBlock').classList.add('active');
     document.getElementById('videoFrame').src = '';
   }
-  // Block DevTools shortcuts
+  // Block F12, Ctrl+Shift+I, Ctrl+U
   if (e.key === 'F12') { e.preventDefault(); e.stopPropagation(); return false; }
   if (e.ctrlKey && e.shiftKey && ['I','J','C','K'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); return false; }
   if (e.metaKey && e.altKey && ['I','J','C','U'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); return false; }
-  // Block View Source
   if (e.ctrlKey && e.key.toLowerCase() === 'u') { e.preventDefault(); e.stopPropagation(); return false; }
-  // Block Save
   if (e.ctrlKey && e.key.toLowerCase() === 's') { e.preventDefault(); e.stopPropagation(); return false; }
-  // Block Print
   if (e.ctrlKey && e.key.toLowerCase() === 'p') { e.preventDefault(); e.stopPropagation(); return false; }
 }, true);
 
-// ══════════════════════════════════════
-// SECURITY: RIGHT-CLICK & DRAG
-// ══════════════════════════════════════
-document.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
-document.addEventListener('dragstart', e => { e.preventDefault(); return false; });
+// Block right-click
+document.addEventListener('contextmenu', e => e.preventDefault());
 
-// ══════════════════════════════════════
-// SECURITY: PRINT BLOCK
-// ══════════════════════════════════════
-window.addEventListener('beforeprint', () => { document.body.style.display = 'none'; });
-window.addEventListener('afterprint', () => { document.body.style.display = ''; });
+// Block drag
+document.addEventListener('dragstart', e => e.preventDefault());
 
-// ══════════════════════════════════════
-// SECURITY: SCREEN CAPTURE DETECTION
-// ══════════════════════════════════════
-if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
-  const origGetDisplayMedia = navigator.mediaDevices.getDisplayMedia.bind(navigator.mediaDevices);
-  navigator.mediaDevices.getDisplayMedia = async function(constraints) {
-    if (videoPlaying) {
-      document.getElementById('videoFrame').src = '';
-      document.getElementById('videoScreenBlock').classList.add('active');
-      const msg = document.getElementById('videoScreenBlock').querySelector('.video-screen-block-sub');
-      if (msg) msg.textContent = 'Screen recording detected. Video stopped.';
-    }
-    return origGetDisplayMedia(constraints);
-  };
+// Block print
+window.addEventListener('beforeprint', e => {
+  document.body.style.display = 'none';
+});
+window.addEventListener('afterprint', e => {
+  document.body.style.display = '';
+});
+
+// Block screenshot / screen capture detection (best-effort)
+if (navigator.mediaDevices) {
+  const origGetDisplayMedia = navigator.mediaDevices.getDisplayMedia?.bind(navigator.mediaDevices);
+  if (origGetDisplayMedia) {
+    navigator.mediaDevices.getDisplayMedia = async function(constraints) {
+      if (videoPlaying) {
+        document.getElementById('videoFrame').src = '';
+        document.getElementById('videoScreenBlock').classList.add('active');
+        const msg = document.getElementById('videoScreenBlock').querySelector('.video-screen-block-sub');
+        if (msg) msg.textContent = 'Screen recording detected. Video stopped.';
+      }
+      return origGetDisplayMedia(constraints);
+    };
+  }
 }
 
-// ══════════════════════════════════════
-// SECURITY: DEVTOOLS DETECTION
-// ══════════════════════════════════════
+// Block inspect via devtools detection (basic)
 let devtoolsOpen = false;
 setInterval(() => {
   const t = performance.now();
-  // eslint-disable-next-line no-debugger
   debugger;
   if (performance.now() - t > 100) {
     if (!devtoolsOpen) {
@@ -892,41 +1499,16 @@ setInterval(() => {
         closeVideo();
       }
     }
-  } else {
-    devtoolsOpen = false;
-  }
+  } else { devtoolsOpen = false; }
 }, 1000);
 
-// Block copy/cut
+// CSS: disable copy
 document.addEventListener('copy', e => e.preventDefault());
 document.addEventListener('cut', e => e.preventDefault());
 
-// ══════════════════════════════════════
-// SHAKE ANIMATION
-// ══════════════════════════════════════
+// Shake animation
 const style = document.createElement('style');
-style.textContent = `
-  @keyframes shake {
-    0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)}
-  }
-  /* Fullscreen: make iframe fill the screen */
-  #videoWrapper:fullscreen,
-  #videoWrapper:-webkit-full-screen,
-  #videoWrapper:-moz-full-screen,
-  #videoWrapper:-ms-fullscreen {
-    width: 100vw !important;
-    height: 100vh !important;
-    aspect-ratio: unset !important;
-    border-radius: 0 !important;
-  }
-  #videoWrapper:fullscreen iframe,
-  #videoWrapper:-webkit-full-screen iframe,
-  #videoWrapper:-moz-full-screen iframe,
-  #videoWrapper:-ms-fullscreen iframe {
-    width: 100% !important;
-    height: 100% !important;
-  }
-`;
+style.textContent = `@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)} }`;
 document.head.appendChild(style);
 </script>
 </body>
