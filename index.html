@@ -715,34 +715,6 @@
     font-weight: 700;
     color: white;
   }
-
-  /* ── MODAL CONTROLS (fullscreen + close grouped) ── */
-  .modal-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  /* ── FULLSCREEN BUTTON ── */
-  .btn-fullscreen {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.1);
-    color: white;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: var(--transition);
-  }
-  .btn-fullscreen:hover {
-    background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.5);
-  }
-  .btn-fullscreen svg {
-    width: 18px; height: 18px;
-    fill: white;
-  }
-
   .modal-close {
     width: 40px; height: 40px;
     border-radius: 50%;
@@ -830,24 +802,6 @@
     margin: 20px 0;
   }
 
-  /* Fullscreen: iframe fills screen */
-  #videoWrapper:fullscreen,
-  #videoWrapper:-webkit-full-screen,
-  #videoWrapper:-moz-full-screen,
-  #videoWrapper:-ms-fullscreen {
-    width: 100vw !important;
-    height: 100vh !important;
-    aspect-ratio: unset !important;
-    border-radius: 0 !important;
-  }
-  #videoWrapper:fullscreen iframe,
-  #videoWrapper:-webkit-full-screen iframe,
-  #videoWrapper:-moz-full-screen iframe,
-  #videoWrapper:-ms-fullscreen iframe {
-    width: 100% !important;
-    height: 100% !important;
-  }
-
   @media (max-width: 768px) {
     .admin-grid { grid-template-columns: 1fr; }
     .admin-content { padding: 20px 16px; }
@@ -932,7 +886,7 @@
         <div class="card-title"><div class="card-title-dot"></div> Create Student</div>
         <div class="form-group">
           <label class="form-label">Username</label>
-          <input class="form-input" type="text" id="newStudentUser" placeholder="e.g. john_doe" autocomplete="off">
+          <input class="form-input" type="text" id="newStudentUser" placeholder="e.g.kritin_baranwal" autocomplete="off">
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
@@ -998,25 +952,13 @@
   <div class="modal-inner">
     <div class="modal-header">
       <div class="modal-title" id="modalTitle">Lecture 1</div>
-      <!-- CHANGED: controls group with fullscreen + close -->
-      <div class="modal-controls">
-        <button class="btn-fullscreen" onclick="toggleFullscreen()" title="Toggle Fullscreen">
-          <svg id="fsIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zM3 13h2v4h4v2H3v-6zm16 4h-4v2h6v-6h-2v4z"/>
-          </svg>
-        </button>
-        <button class="modal-close" onclick="closeVideo()">✕</button>
-      </div>
+      <button class="modal-close" onclick="closeVideo()">✕</button>
     </div>
     <div class="video-wrapper" id="videoWrapper">
-      <!-- CHANGED: sandbox restricted (no allow-popups-to-escape-sandbox, no allow-downloads)
-           referrerpolicy set to no-referrer to avoid leaking origin
-           allow list trimmed — no presentation, no clipboard -->
-      <iframe id="videoFrame"
-        allow="autoplay; encrypted-media; fullscreen"
+      <iframe id="videoFrame" allow="autoplay; encrypted-media; fullscreen"
         allowfullscreen
-        sandbox="allow-scripts allow-same-origin allow-forms"
-        referrerpolicy="no-referrer"></iframe>
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+        referrerpolicy="origin"></iframe>
     </div>
   </div>
 </div>
@@ -1047,6 +989,7 @@
 // ══════════════════════════════════════
 const ADMIN = { user: 'admin', pass: 'admin@123' };
 
+
 const VIDEOS = [
   { id: 1,  title: 'Lecture 1',  src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQToWIcvRpTzRJBwVzPij_1qAQBjnORVjdpTZX5O4xAD-KI' },
   { id: 2,  title: 'Lecture 2',  src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQRJWQQQEiWqTYMfsBHQU65sAdczbUykQa9iAihl2xrBphw' },
@@ -1060,20 +1003,6 @@ const VIDEOS = [
   { id: 10, title: 'Lecture 10', src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQSPF2yKffdAQZ6Rfr2T2WMmAQc-63u4bxkTb29peI06fzU' },
 ];
 
-// ── CHANGED: converts raw OneDrive share URL → embed URL
-// appends action=embedview + toolbar-suppression params
-// This hides Share, View in Browser, and Download buttons inside OneDrive player
-function toEmbedUrl(shareUrl) {
-  const sep = shareUrl.includes('?') ? '&' : '?';
-  return shareUrl
-    + sep
-    + 'action=embedview'
-    + '&wdAllowInteractivity=False'
-    + '&wdHideToolbar=True'
-    + '&wdDownloadButton=False'
-    + '&wdInConfigurator=True';
-}
-
 // Load students from localStorage
 function loadStudents() {
   try { return JSON.parse(localStorage.getItem('kreya_students') || '[]'); } catch { return []; }
@@ -1084,7 +1013,6 @@ let currentTab = 'student';
 let editingStudentUser = null;
 let videoPlaying = false;
 let isDark = false;
-let isFullscreen = false;
 
 // ══════════════════════════════════════
 // INIT
@@ -1096,11 +1024,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Enter on inputs
   document.getElementById('studentPass').addEventListener('keydown', e => { if(e.key==='Enter') studentLogin(); });
   document.getElementById('adminPass').addEventListener('keydown', e => { if(e.key==='Enter') adminLogin(); });
-  // Fullscreen change listener
-  document.addEventListener('fullscreenchange', onFullscreenChange);
-  document.addEventListener('webkitfullscreenchange', onFullscreenChange);
-  document.addEventListener('mozfullscreenchange', onFullscreenChange);
-  document.addEventListener('MSFullscreenChange', onFullscreenChange);
 });
 
 // ══════════════════════════════════════
@@ -1368,66 +1291,18 @@ function openVideo(id) {
   document.getElementById('modalTitle').textContent = v.title;
 
   const frame = document.getElementById('videoFrame');
-  // CHANGED: use toEmbedUrl() to suppress OneDrive toolbar (Share, View in Browser, Download)
-  frame.src = toEmbedUrl(v.src);
+  // Use the embed src directly from OneDrive's own iframe code
+  frame.src = v.src;
 
   document.getElementById('videoModal').classList.add('active');
   videoPlaying = true;
 }
 
 function closeVideo() {
-  // Exit fullscreen if active before closing
-  if (document.fullscreenElement || document.webkitFullscreenElement) {
-    exitFullscreen();
-  }
   document.getElementById('videoModal').classList.remove('active');
   document.getElementById('videoFrame').src = '';
   videoPlaying = false;
   document.getElementById('videoScreenBlock').classList.remove('active');
-}
-
-// ══════════════════════════════════════
-// FULLSCREEN (NEW)
-// ══════════════════════════════════════
-function toggleFullscreen() {
-  const wrapper = document.getElementById('videoWrapper');
-  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-    if (wrapper.requestFullscreen) {
-      wrapper.requestFullscreen();
-    } else if (wrapper.webkitRequestFullscreen) {
-      wrapper.webkitRequestFullscreen();
-    } else if (wrapper.mozRequestFullScreen) {
-      wrapper.mozRequestFullScreen();
-    } else if (wrapper.msRequestFullscreen) {
-      wrapper.msRequestFullscreen();
-    }
-  } else {
-    exitFullscreen();
-  }
-}
-
-function exitFullscreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  } else if (document.mozCancelFullScreen) {
-    document.mozCancelFullScreen();
-  } else if (document.msExitFullscreen) {
-    document.msExitFullscreen();
-  }
-}
-
-function onFullscreenChange() {
-  isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement);
-  const icon = document.getElementById('fsIcon');
-  if (isFullscreen) {
-    // Compress / exit icon
-    icon.innerHTML = '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>';
-  } else {
-    // Expand icon
-    icon.innerHTML = '<path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zM3 13h2v4h4v2H3v-6zm16 4h-4v2h6v-6h-2v4z"/>';
-  }
 }
 
 // Tab switch detection ONLY via visibilitychange (reliable, doesn't false-trigger on iframe clicks)
@@ -1443,18 +1318,17 @@ document.addEventListener('visibilitychange', () => {
 
 // Escape key handling
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && videoPlaying && !isFullscreen) {
+  if (e.key === 'Escape' && videoPlaying) {
     document.getElementById('videoScreenBlock').classList.add('active');
     document.getElementById('videoFrame').src = '';
   }
   // Block F12, Ctrl+Shift+I, Ctrl+U
-  if (e.key === 'F12') { e.preventDefault(); e.stopPropagation(); return false; }
-  if (e.ctrlKey && e.shiftKey && ['I','J','C','K'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); return false; }
-  if (e.metaKey && e.altKey && ['I','J','C','U'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); return false; }
-  if (e.ctrlKey && e.key.toLowerCase() === 'u') { e.preventDefault(); e.stopPropagation(); return false; }
-  if (e.ctrlKey && e.key.toLowerCase() === 's') { e.preventDefault(); e.stopPropagation(); return false; }
-  if (e.ctrlKey && e.key.toLowerCase() === 'p') { e.preventDefault(); e.stopPropagation(); return false; }
-}, true);
+  if (e.key === 'F12') e.preventDefault();
+  if (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) e.preventDefault();
+  if (e.ctrlKey && e.key === 'u') e.preventDefault();
+  if (e.ctrlKey && e.key === 's') e.preventDefault();
+  if (e.ctrlKey && e.key === 'p') e.preventDefault();
+});
 
 // Block right-click
 document.addEventListener('contextmenu', e => e.preventDefault());
@@ -1471,6 +1345,7 @@ window.addEventListener('afterprint', e => {
 });
 
 // Block screenshot / screen capture detection (best-effort)
+// When MediaDevices capture is attempted, show warning
 if (navigator.mediaDevices) {
   const origGetDisplayMedia = navigator.mediaDevices.getDisplayMedia?.bind(navigator.mediaDevices);
   if (origGetDisplayMedia) {
@@ -1485,6 +1360,8 @@ if (navigator.mediaDevices) {
     };
   }
 }
+
+// Note: blur/focus events are NOT used as they false-trigger when clicking inside the iframe
 
 // Block inspect via devtools detection (basic)
 let devtoolsOpen = false;
