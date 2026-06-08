@@ -1305,16 +1305,14 @@ function closeVideo() {
   document.getElementById('videoScreenBlock').classList.remove('active');
 }
 
-// Tab visibility — hide video when user switches tab
+// Tab switch detection ONLY via visibilitychange (reliable, doesn't false-trigger on iframe clicks)
 document.addEventListener('visibilitychange', () => {
-  if (videoPlaying) {
-    if (document.hidden) {
-      document.getElementById('videoScreenBlock').classList.add('active');
-      document.getElementById('videoFrame').src = '';
-    } else {
-      // Don't auto-resume, require user to reopen
-      document.getElementById('videoScreenBlock').classList.remove('active');
-    }
+  if (!videoPlaying) return;
+  if (document.hidden) {
+    document.getElementById('videoScreenBlock').classList.add('active');
+    document.getElementById('videoFrame').src = '';
+  } else {
+    document.getElementById('videoScreenBlock').classList.remove('active');
   }
 });
 
@@ -1363,18 +1361,7 @@ if (navigator.mediaDevices) {
   }
 }
 
-// Window blur (switching app/tab)
-window.addEventListener('blur', () => {
-  if (videoPlaying) {
-    document.getElementById('videoScreenBlock').classList.add('active');
-    document.getElementById('videoFrame').src = '';
-  }
-});
-window.addEventListener('focus', () => {
-  if (videoPlaying) {
-    document.getElementById('videoScreenBlock').classList.remove('active');
-  }
-});
+// Note: blur/focus events are NOT used as they false-trigger when clicking inside the iframe
 
 // Block inspect via devtools detection (basic)
 let devtoolsOpen = false;
