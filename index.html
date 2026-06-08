@@ -238,19 +238,46 @@
   /* ══════════════════════════════════════
      THEME TOGGLE BUTTON
   ══════════════════════════════════════ */
-  .theme-btn {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    border: 1.5px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    transition: var(--transition);
-    box-shadow: var(--shadow);
   }
-  .theme-btn:hover { transform: scale(1.08); }
+  .theme-toggle-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text3);
+    letter-spacing: 0.3px;
+    user-select: none;
+  }
+  .toggle-track {
+    width: 44px; height: 24px;
+    border-radius: 12px;
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    position: relative;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .toggle-track.on {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .toggle-thumb {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--text3);
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    left: 3px;
+    transition: var(--transition);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  .toggle-track.on .toggle-thumb {
+    left: calc(100% - 19px);
+    background: white;
+  }
 
   /* ══════════════════════════════════════
      ADMIN PANEL
@@ -790,7 +817,12 @@
 <div id="loginPage" class="page active">
   <div class="login-bg"></div>
   <div class="theme-toggle-login">
-    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀️</button>
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <span class="theme-toggle-label" id="loginThemeLabel">Light</span>
+      <div class="toggle-track" id="loginToggle">
+        <div class="toggle-thumb"></div>
+      </div>
+    </div>
   </div>
   <div class="login-card">
     <div class="brand">
@@ -838,7 +870,12 @@
     <div class="topbar-brand">Kreya <span>Courses</span></div>
     <div class="topbar-right">
       <span class="topbar-badge">Admin</span>
-      <button class="theme-btn" onclick="toggleTheme()">☀️</button>
+      <div class="theme-toggle" onclick="toggleTheme()">
+        <span class="theme-toggle-label" id="adminThemeLabel">Light</span>
+        <div class="toggle-track" id="adminToggle">
+          <div class="toggle-thumb"></div>
+        </div>
+      </div>
       <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
   </div>
@@ -892,7 +929,12 @@
     <div class="topbar-brand">Kreya <span>Courses</span></div>
     <div class="topbar-right">
       <div class="student-welcome">Welcome, <strong id="studentName"></strong></div>
-      <button class="theme-btn" onclick="toggleTheme()">☀️</button>
+      <div class="theme-toggle" onclick="toggleTheme()">
+        <span class="theme-toggle-label" id="studentThemeLabel">Light</span>
+        <div class="toggle-track" id="studentToggle">
+          <div class="toggle-thumb"></div>
+        </div>
+      </div>
       <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
   </div>
@@ -913,9 +955,10 @@
       <button class="modal-close" onclick="closeVideo()">✕</button>
     </div>
     <div class="video-wrapper" id="videoWrapper">
-      <iframe id="videoFrame" allow="autoplay; encrypted-media" allowfullscreen
-        sandbox="allow-scripts allow-same-origin allow-presentation"
-        referrerpolicy="no-referrer"></iframe>
+      <iframe id="videoFrame" allow="autoplay; encrypted-media; fullscreen"
+        allowfullscreen
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+        referrerpolicy="origin"></iframe>
     </div>
   </div>
 </div>
@@ -946,34 +989,31 @@
 // ══════════════════════════════════════
 const ADMIN = { user: 'admin', pass: 'admin@123' };
 
+// OneDrive embed URLs
+// Format: take the share link, base64-encode it, pass to the embed endpoint
+// This is the correct Microsoft method for embedding OneDrive files in iframes
+
+function makeOneDriveEmbed(shareUrl) {
+  // Microsoft's official embed method:
+  // Base64 encode the share URL, strip padding, prefix with "u!", use as "resid"
+  // Then call: https://onedrive.live.com/embed?cid=...
+  // BUT the simplest working method is just passing the share URL to the embed viewer:
+  const b64 = btoa(shareUrl).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  return `https://onedrive.live.com/embed?resid=${b64}&authkey=&em=2`;
+}
+
 const VIDEOS = [
-  { id: 1, title: 'Lecture 1',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQDoWIcvRpTzRJBwVzPij_1qAVxjI7nyxWeOyMcVB1d9270?e=E4vcXI' },
-  { id: 2, title: 'Lecture 2',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQD17AEzm-MpT634_w6cWijYAQhdwj-GX7HaJ6raxj7P_rg?e=zgRK2U' },
-  { id: 3, title: 'Lecture 3',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCJXTj3IaTwQKuz9nCdf8ViAbfw4-pAhOmXoLE89qFWSvk?e=o5GZdJ' },
-  { id: 4, title: 'Lecture 4',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQC-p5_qwgK5QLXp1U-Wg3ELAUVBL-cw1hau8U3i2A-39EY?e=BsF1Ga' },
-  { id: 5, title: 'Lecture 5',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCv1gsFoscVT71eDvytSqQRAX05fQM-8hI0rj7SZyEdgzk?e=xAEcFz' },
-  { id: 6, title: 'Lecture 6',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQBquVxaJ5RSSbAxlZ480WYxAede0StKfYWSCqpxpAdwq0c?e=da8JiE' },
-  { id: 7, title: 'Lecture 7',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQAjevjq9w8bTKjNy7gSNqLxAdBvDQPiMUOndurnWlUxEOQ?e=Ko0zOE' },
-  { id: 8, title: 'Lecture 8',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQBmXeSvygRBSq9xsHnddoxZAXCOTSeluRkSHpTmOeStBFM?e=BigEr8' },
-  { id: 9, title: 'Lecture 9',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQDh_37ixFRiTa9jVxGQFdh0ASqnj2aWdcEek7tGecJGi-4?e=u33wa8' },
-  { id: 10, title: 'Lecture 10', url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCPF2yKffdAQZ6Rfr2T2WMmAa7UBAkIdgHX_gCFi3QpZg4?e=Ww6Kap' },
+  { id: 1,  title: 'Lecture 1',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQDoWIcvRpTzRJBwVzPij_1qAVxjI7nyxWeOyMcVB1d9270?e=E4vcXI' },
+  { id: 2,  title: 'Lecture 2',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQD17AEzm-MpT634_w6cWijYAQhdwj-GX7HaJ6raxj7P_rg?e=zgRK2U' },
+  { id: 3,  title: 'Lecture 3',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCJXTj3IaTwQKuz9nCdf8ViAbfw4-pAhOmXoLE89qFWSvk?e=o5GZdJ' },
+  { id: 4,  title: 'Lecture 4',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQC-p5_qwgK5QLXp1U-Wg3ELAUVBL-cw1hau8U3i2A-39EY?e=BsF1Ga' },
+  { id: 5,  title: 'Lecture 5',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCv1gsFoscVT71eDvytSqQRAX05fQM-8hI0rj7SZyEdgzk?e=xAEcFz' },
+  { id: 6,  title: 'Lecture 6',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQBquVxaJ5RSSbAxlZ480WYxAede0StKfYWSCqpxpAdwq0c?e=da8JiE' },
+  { id: 7,  title: 'Lecture 7',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQAjevjq9w8bTKjNy7gSNqLxAdBvDQPiMUOndurnWlUxEOQ?e=Ko0zOE' },
+  { id: 8,  title: 'Lecture 8',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQBmXeSvygRBSq9xsHnddoxZAXCOTSeluRkSHpTmOeStBFM?e=BigEr8' },
+  { id: 9,  title: 'Lecture 9',  share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQDh_37ixFRiTa9jVxGQFdh0ASqnj2aWdcEek7tGecJGi-4?e=u33wa8' },
+  { id: 10, title: 'Lecture 10', share: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCPF2yKffdAQZ6Rfr2T2WMmAa7UBAkIdgHX_gCFi3QpZg4?e=Ww6Kap' },
 ];
-
-// Convert OneDrive share links to embed links
-function toEmbedUrl(shareUrl) {
-  // OneDrive embed: replace share URL pattern
-  // Use the embed endpoint
-  const encoded = encodeURIComponent(shareUrl);
-  return `https://onedrive.live.com/embed?resid=&authkey=&em=2&wdStartOn=1&wdEmbedCode=0&url=${encoded}`;
-}
-
-// Build proper OneDrive embed URLs
-function buildEmbedUrl(shareUrl) {
-  // Extract the sharing parameters and build an embed URL
-  // OneDrive format: https://onedrive.live.com/embed?cid=...&resid=...&authkey=...
-  // For video files, we use the download redirect with embed mode
-  return shareUrl.replace('1drv.ms/v/', '1drv.ms/v/').replace('?', '?download=0&');
-}
 
 // Load students from localStorage
 function loadStudents() {
@@ -1004,8 +1044,17 @@ document.addEventListener('DOMContentLoaded', () => {
 function setTheme(dark) {
   isDark = dark;
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-  const btns = document.querySelectorAll('.theme-btn');
-  btns.forEach(b => b.textContent = dark ? '🌙' : '☀️');
+  const label = dark ? 'Dark' : 'Light';
+  // Update all toggle tracks
+  ['loginToggle','adminToggle','studentToggle'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('on', dark);
+  });
+  // Update all labels
+  ['loginThemeLabel','adminThemeLabel','studentThemeLabel'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = label;
+  });
   localStorage.setItem('kreya_theme', dark ? 'dark' : 'light');
 }
 function toggleTheme() { setTheme(!isDark); }
@@ -1253,23 +1302,16 @@ function openVideo(id) {
   if (!v) return;
   document.getElementById('modalTitle').textContent = v.title;
 
-  // Use OneDrive embed format
   const frame = document.getElementById('videoFrame');
-  // Build embed URL for OneDrive
-  const embedUrl = v.url + '&action=embedview&wdbipreference=1';
+
+  // OneDrive correct embed method:
+  // Base64-encode the share URL (URL-safe), prefix with "u!", pass as resid
+  const b64 = btoa(v.share).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const embedUrl = `https://onedrive.live.com/embed?resid=u!${b64}&authkey=&em=2`;
   frame.src = embedUrl;
 
   document.getElementById('videoModal').classList.add('active');
   videoPlaying = true;
-
-  // Block PiP
-  try {
-    const iframeDoc = frame.contentDocument || frame.contentWindow?.document;
-    if (iframeDoc) {
-      const vids = iframeDoc.querySelectorAll('video');
-      vids.forEach(vid => { vid.disablePictureInPicture = true; });
-    }
-  } catch(e) {}
 }
 
 function closeVideo() {
