@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kreya Courses</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ee;
+    --bg2: #eceae3;
+    --surface: #ffffff;
+    --surface2: #f9f8f5;
+    --border: #e2dfd6;
+    --text: #1a1814;
+    --text2: #6b6760;
+    --text3: #9e9b96;
+    --accent: #c84b31;
+    --accent2: #e8693a;
+    --accent-light: #fdf0ec;
+    --green: #2d6a4f;
+    --green-light: #e8f5ef;
+    --red: #c84b31;
+    --red-light: #fdf0ec;
+    --shadow: 0 2px 8px rgba(26,24,20,0.08);
+    --shadow-lg: 0 8px 32px rgba(26,24,20,0.12);
+    --radius: 12px;
+    --radius-lg: 20px;
+    --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+  [data-theme="dark"] {
+    --bg: #0f0e0c;
+    --bg2: #1a1814;
+    --surface: #201e1b;
+    --surface2: #252220;
+    --border: #2e2c28;
+    --text: #f0ede6;
+    --text2: #a09d96;
+    --text3: #6b6760;
+    --accent: #e8693a;
+    --accent2: #c84b31;
+    --accent-light: #2a1810;
+    --green: #52b788;
+    --green-light: #0d2218;
+    --red: #e8693a;
+    --red-light: #2a1810;
+    --shadow: 0 2px 8px rgba(0,0,0,0.3);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: var(--transition);
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── PAGES ── */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: flex; }
+
+  /* ══════════════════════════════════════
+     LOGIN PAGE
+  ══════════════════════════════════════ */
+  #loginPage {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-bg {
+    position: fixed; inset: 0; z-index: 0;
+    background: var(--bg);
+  }
+  .login-bg::before {
+    content: '';
+    position: absolute;
+    top: -20%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(200,75,49,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .login-bg::after {
+    content: '';
+    position: absolute;
+    bottom: -20%; left: -10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(232,105,58,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .login-card {
+    position: relative; z-index: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    width: 100%; max-width: 420px;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  @keyframes slideUp {
+    from { opacity:0; transform: translateY(24px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+
+  .brand {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .brand-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+  .brand-name span { color: var(--accent); }
+  .brand-tagline {
+    font-size: 13px;
+    color: var(--text3);
+    margin-top: 4px;
+    font-weight: 300;
+  }
+
+  .tab-switcher {
+    display: flex;
+    background: var(--bg2);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 28px;
+    gap: 4px;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text2);
+    transition: var(--transition);
+  }
+  .tab-btn.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: var(--shadow);
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+  .form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    transition: var(--transition);
+    outline: none;
+  }
+  .form-input:focus {
+    border-color: var(--accent);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px rgba(200,75,49,0.1);
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(200,75,49,0.3);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  .error-msg {
+    background: var(--red-light);
+    color: var(--red);
+    border: 1px solid rgba(200,75,49,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-top: 12px;
+    display: none;
+    text-align: center;
+  }
+  .error-msg.show { display: block; }
+
+  .theme-toggle-login {
+    position: fixed;
+    top: 20px; right: 20px;
+    z-index: 10;
+  }
+
+  /* ══════════════════════════════════════
+     THEME TOGGLE BUTTON
+  ══════════════════════════════════════ */
+  .theme-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+  }
+  .theme-btn:hover { transform: scale(1.08); }
+
+  /* ══════════════════════════════════════
+     ADMIN PANEL
+  ══════════════════════════════════════ */
+  #adminPage {
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  .topbar-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .topbar-brand span { color: var(--accent); }
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
+  .topbar-badge {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .btn-logout {
+    padding: 8px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text2);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .btn-logout:hover { border-color: var(--accent); color: var(--accent); }
+
+  .admin-content {
+    flex: 1;
+    padding: 40px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .admin-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-title-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .video-assign-section {
+    margin-top: 18px;
+  }
+  .video-assign-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .video-checkboxes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .video-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--bg2);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .video-checkbox-item:hover { background: var(--accent-light); }
+  .video-checkbox-item input[type="checkbox"] {
+    width: 15px; height: 15px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .video-checkbox-item label {
+    font-size: 13px;
+    color: var(--text2);
+    cursor: pointer;
+  }
+
+  .select-all-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .btn-sm {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* STUDENTS TABLE */
+  .students-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .student-count {
+    font-size: 13px;
+    color: var(--text3);
+  }
+
+  .student-table { width: 100%; border-collapse: collapse; }
+  .student-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 0 12px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .student-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .student-table tr:last-child td { border-bottom: none; }
+  .student-table tr:hover td { background: var(--bg2); }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .status-badge.active {
+    background: var(--green-light);
+    color: var(--green);
+  }
+  .status-badge.disabled {
+    background: var(--bg2);
+    color: var(--text3);
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .action-btns { display: flex; gap: 6px; }
+  .btn-action {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-enable { color: var(--green); border-color: var(--green); }
+  .btn-enable:hover { background: var(--green-light); }
+  .btn-disable { color: var(--text2); }
+  .btn-disable:hover { border-color: var(--text2); color: var(--text); }
+  .btn-delete { color: var(--red); border-color: rgba(200,75,49,0.3); }
+  .btn-delete:hover { background: var(--red-light); border-color: var(--red); }
+
+  .videos-pill {
+    display: inline-flex;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .videos-pill:hover { background: var(--accent); color: white; }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text3);
+  }
+  .empty-state-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-state-text { font-size: 14px; }
+
+  .success-msg {
+    background: var(--green-light);
+    color: var(--green);
+    border: 1px solid rgba(45,106,79,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-top: 12px;
+    display: none;
+    text-align: center;
+  }
+  .success-msg.show { display: block; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+  /* ══════════════════════════════════════
+     STUDENT PORTAL
+  ══════════════════════════════════════ */
+  #studentPage {
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .student-topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  .student-welcome {
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .student-welcome strong { color: var(--text); }
+
+  .student-content {
+    flex: 1;
+    padding: 40px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .section-header {
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+  .section-sub {
+    font-size: 14px;
+    color: var(--text3);
+    margin-top: 4px;
+  }
+
+  .lectures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .lecture-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+  }
+  .lecture-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent);
+  }
+
+  .lecture-thumb {
+    height: 140px;
+    background: linear-gradient(135deg, var(--bg2) 0%, var(--border) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .lecture-thumb::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(200,75,49,0.15) 0%, rgba(232,105,58,0.08) 100%);
+  }
+  .play-btn {
+    width: 52px; height: 52px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 1;
+    transition: var(--transition);
+    box-shadow: 0 4px 16px rgba(200,75,49,0.4);
+  }
+  .play-btn svg { width: 20px; height: 20px; fill: white; margin-left: 3px; }
+  .lecture-card:hover .play-btn { transform: scale(1.1); }
+
+  .lecture-num {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  .lecture-info {
+    padding: 18px;
+  }
+  .lecture-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .lecture-meta {
+    font-size: 12px;
+    color: var(--text3);
+  }
+
+  /* ══════════════════════════════════════
+     VIDEO MODAL
+  ══════════════════════════════════════ */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.92);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+
+  .video-screen-block {
+    display: none;
+    position: fixed; inset: 0; z-index: 999;
+    background: #000;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    color: white;
+  }
+  .video-screen-block.active { display: flex; }
+  .video-screen-block-icon { font-size: 48px; }
+  .video-screen-block-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+  }
+  .video-screen-block-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+  }
+
+  .modal-inner {
+    width: 100%;
+    max-width: 960px;
+    position: relative;
+  }
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+  }
+  .modal-close {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition);
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.2); }
+
+  .video-wrapper {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #000;
+    position: relative;
+  }
+  .video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    pointer-events: auto;
+  }
+
+  /* block PiP overlay */
+  .video-wrapper::after {
+    content: '';
+    position: absolute; inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ══════════════════════════════════════
+     EDIT VIDEOS MODAL
+  ══════════════════════════════════════ */
+  .edit-modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .edit-modal-overlay.active { display: flex; }
+  .edit-modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.3s ease;
+  }
+  .edit-modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .edit-modal-close {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: var(--transition);
+  }
+  .edit-modal-close:hover { color: var(--text); }
+
+  /* ══════════════════════════════════════
+     UTILS
+  ══════════════════════════════════════ */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+
+  @media (max-width: 768px) {
+    .admin-grid { grid-template-columns: 1fr; }
+    .admin-content { padding: 20px 16px; }
+    .student-content { padding: 20px 16px; }
+    .topbar, .student-topbar { padding: 0 16px; }
+    .login-card { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN PAGE ══ -->
+<div id="loginPage" class="page active">
+  <div class="login-bg"></div>
+  <div class="theme-toggle-login">
+    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀️</button>
+  </div>
+  <div class="login-card">
+    <div class="brand">
+      <div class="brand-name">Kreya <span>Courses</span></div>
+      <div class="brand-tagline">Premium Learning Experience</div>
+    </div>
+    <div class="tab-switcher">
+      <button class="tab-btn active" onclick="switchTab('student')">Student</button>
+      <button class="tab-btn" onclick="switchTab('admin')">Admin</button>
+    </div>
+
+    <!-- Student Login -->
+    <div id="studentLoginForm">
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input class="form-input" type="text" id="studentUser" placeholder="Enter your username" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="studentPass" placeholder="Enter your password">
+      </div>
+      <button class="btn-primary" onclick="studentLogin()">Sign In</button>
+      <div class="error-msg" id="studentError">Invalid credentials or account disabled.</div>
+    </div>
+
+    <!-- Admin Login -->
+    <div id="adminLoginForm" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">Admin Username</label>
+        <input class="form-input" type="text" id="adminUser" placeholder="admin" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="adminPass" placeholder="••••••••">
+      </div>
+      <button class="btn-primary" onclick="adminLogin()">Access Dashboard</button>
+      <div class="error-msg" id="adminError">Incorrect admin credentials.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN PAGE ══ -->
+<div id="adminPage" class="page">
+  <div class="topbar">
+    <div class="topbar-brand">Kreya <span>Courses</span></div>
+    <div class="topbar-right">
+      <span class="topbar-badge">Admin</span>
+      <button class="theme-btn" onclick="toggleTheme()">☀️</button>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <div class="admin-content">
+    <div class="admin-grid">
+      <!-- Create Student -->
+      <div class="card">
+        <div class="card-title"><div class="card-title-dot"></div> Create Student</div>
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input class="form-input" type="text" id="newStudentUser" placeholder="e.g. john_doe" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="newStudentPass" placeholder="Set a password">
+        </div>
+        <div class="video-assign-section">
+          <span class="video-assign-label">Assign Videos</span>
+          <div class="select-all-row">
+            <button class="btn-sm" onclick="selectAllVideos(true)">Select All</button>
+            <button class="btn-sm" onclick="selectAllVideos(false)">Clear All</button>
+          </div>
+          <div class="video-checkboxes" id="videoCheckboxes"></div>
+        </div>
+        <div class="divider"></div>
+        <button class="btn-primary" onclick="createStudent()">Create Student Account</button>
+        <div class="error-msg" id="createError">Username already exists.</div>
+        <div class="success-msg" id="createSuccess">Student created successfully!</div>
+      </div>
+
+      <!-- Students List -->
+      <div class="card">
+        <div class="students-header">
+          <div class="card-title" style="margin-bottom:0;"><div class="card-title-dot"></div> Students</div>
+          <span class="student-count" id="studentCount">0 students</span>
+        </div>
+        <div id="studentsTableContainer">
+          <div class="empty-state">
+            <div class="empty-state-icon">👤</div>
+            <div class="empty-state-text">No students yet. Create one to get started.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STUDENT PAGE ══ -->
+<div id="studentPage" class="page">
+  <div class="student-topbar">
+    <div class="topbar-brand">Kreya <span>Courses</span></div>
+    <div class="topbar-right">
+      <div class="student-welcome">Welcome, <strong id="studentName"></strong></div>
+      <button class="theme-btn" onclick="toggleTheme()">☀️</button>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <div class="student-content">
+    <div class="section-header">
+      <div class="section-title">Your Lectures</div>
+      <div class="section-sub">Click any lecture to start watching</div>
+    </div>
+    <div class="lectures-grid" id="lecturesGrid"></div>
+  </div>
+</div>
+
+<!-- ══ VIDEO MODAL ══ -->
+<div class="modal-overlay" id="videoModal">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Lecture 1</div>
+      <button class="modal-close" onclick="closeVideo()">✕</button>
+    </div>
+    <div class="video-wrapper" id="videoWrapper">
+      <iframe id="videoFrame" allow="autoplay; encrypted-media" allowfullscreen
+        sandbox="allow-scripts allow-same-origin allow-presentation"
+        referrerpolicy="no-referrer"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ══ VIDEO HIDDEN SCREEN ══ -->
+<div class="video-screen-block" id="videoScreenBlock">
+  <div class="video-screen-block-icon">🔒</div>
+  <div class="video-screen-block-text">Video Paused</div>
+  <div class="video-screen-block-sub">Return to this tab to continue watching</div>
+</div>
+
+<!-- ══ EDIT VIDEOS MODAL ══ -->
+<div class="edit-modal-overlay" id="editModal">
+  <div class="edit-modal">
+    <div class="edit-modal-title">
+      <span>Edit Video Access</span>
+      <button class="edit-modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="video-checkboxes" id="editVideoCheckboxes"></div>
+    <div class="divider"></div>
+    <button class="btn-primary" onclick="saveVideoEdit()">Save Changes</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+// DATA
+// ══════════════════════════════════════
+const ADMIN = { user: 'admin', pass: 'admin@123' };
+
+const VIDEOS = [
+  { id: 1, title: 'Lecture 1',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQDoWIcvRpTzRJBwVzPij_1qAVxjI7nyxWeOyMcVB1d9270?e=E4vcXI' },
+  { id: 2, title: 'Lecture 2',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQD17AEzm-MpT634_w6cWijYAQhdwj-GX7HaJ6raxj7P_rg?e=zgRK2U' },
+  { id: 3, title: 'Lecture 3',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCJXTj3IaTwQKuz9nCdf8ViAbfw4-pAhOmXoLE89qFWSvk?e=o5GZdJ' },
+  { id: 4, title: 'Lecture 4',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQC-p5_qwgK5QLXp1U-Wg3ELAUVBL-cw1hau8U3i2A-39EY?e=BsF1Ga' },
+  { id: 5, title: 'Lecture 5',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCv1gsFoscVT71eDvytSqQRAX05fQM-8hI0rj7SZyEdgzk?e=xAEcFz' },
+  { id: 6, title: 'Lecture 6',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQBquVxaJ5RSSbAxlZ480WYxAede0StKfYWSCqpxpAdwq0c?e=da8JiE' },
+  { id: 7, title: 'Lecture 7',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQAjevjq9w8bTKjNy7gSNqLxAdBvDQPiMUOndurnWlUxEOQ?e=Ko0zOE' },
+  { id: 8, title: 'Lecture 8',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQBmXeSvygRBSq9xsHnddoxZAXCOTSeluRkSHpTmOeStBFM?e=BigEr8' },
+  { id: 9, title: 'Lecture 9',  url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQDh_37ixFRiTa9jVxGQFdh0ASqnj2aWdcEek7tGecJGi-4?e=u33wa8' },
+  { id: 10, title: 'Lecture 10', url: 'https://1drv.ms/v/c/17f364c1c9541e36/IQCPF2yKffdAQZ6Rfr2T2WMmAa7UBAkIdgHX_gCFi3QpZg4?e=Ww6Kap' },
+];
+
+// Convert OneDrive share links to embed links
+function toEmbedUrl(shareUrl) {
+  // OneDrive embed: replace share URL pattern
+  // Use the embed endpoint
+  const encoded = encodeURIComponent(shareUrl);
+  return `https://onedrive.live.com/embed?resid=&authkey=&em=2&wdStartOn=1&wdEmbedCode=0&url=${encoded}`;
+}
+
+// Build proper OneDrive embed URLs
+function buildEmbedUrl(shareUrl) {
+  // Extract the sharing parameters and build an embed URL
+  // OneDrive format: https://onedrive.live.com/embed?cid=...&resid=...&authkey=...
+  // For video files, we use the download redirect with embed mode
+  return shareUrl.replace('1drv.ms/v/', '1drv.ms/v/').replace('?', '?download=0&');
+}
+
+// Load students from localStorage
+function loadStudents() {
+  try { return JSON.parse(localStorage.getItem('kreya_students') || '[]'); } catch { return []; }
+}
+function saveStudents(s) { localStorage.setItem('kreya_students', JSON.stringify(s)); }
+
+let currentTab = 'student';
+let editingStudentUser = null;
+let videoPlaying = false;
+let isDark = false;
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  buildVideoCheckboxes('videoCheckboxes');
+  const saved = localStorage.getItem('kreya_theme');
+  if (saved === 'dark') setTheme(true);
+  // Enter on inputs
+  document.getElementById('studentPass').addEventListener('keydown', e => { if(e.key==='Enter') studentLogin(); });
+  document.getElementById('adminPass').addEventListener('keydown', e => { if(e.key==='Enter') adminLogin(); });
+});
+
+// ══════════════════════════════════════
+// THEME
+// ══════════════════════════════════════
+function setTheme(dark) {
+  isDark = dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  const btns = document.querySelectorAll('.theme-btn');
+  btns.forEach(b => b.textContent = dark ? '🌙' : '☀️');
+  localStorage.setItem('kreya_theme', dark ? 'dark' : 'light');
+}
+function toggleTheme() { setTheme(!isDark); }
+
+// ══════════════════════════════════════
+// LOGIN
+// ══════════════════════════════════════
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', (i===0 && tab==='student') || (i===1 && tab==='admin'));
+  });
+  document.getElementById('studentLoginForm').style.display = tab==='student' ? '' : 'none';
+  document.getElementById('adminLoginForm').style.display = tab==='admin' ? '' : 'none';
+}
+
+function adminLogin() {
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value;
+  const err = document.getElementById('adminError');
+  if (u === ADMIN.user && p === ADMIN.pass) {
+    showPage('adminPage');
+    renderStudentsTable();
+    err.classList.remove('show');
+  } else {
+    err.classList.add('show');
+    shake(document.querySelector('#adminLoginForm .form-input'));
+  }
+}
+
+function studentLogin() {
+  const u = document.getElementById('studentUser').value.trim();
+  const p = document.getElementById('studentPass').value;
+  const err = document.getElementById('studentError');
+  const students = loadStudents();
+  const found = students.find(s => s.username === u && s.password === p);
+  if (found) {
+    if (!found.active) {
+      err.textContent = 'Your account has been disabled. Contact admin.';
+      err.classList.add('show');
+      return;
+    }
+    err.classList.remove('show');
+    document.getElementById('studentName').textContent = found.username;
+    showPage('studentPage');
+    renderLectures(found.videos || []);
+  } else {
+    err.textContent = 'Invalid username or password.';
+    err.classList.add('show');
+    shake(document.querySelector('#studentLoginForm .form-input'));
+  }
+}
+
+function logout() {
+  closeVideo();
+  showPage('loginPage');
+  document.getElementById('studentUser').value = '';
+  document.getElementById('studentPass').value = '';
+  document.getElementById('adminUser').value = '';
+  document.getElementById('adminPass').value = '';
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function shake(el) {
+  if (!el) return;
+  el.style.animation = 'none';
+  el.offsetHeight;
+  el.style.animation = 'shake 0.4s ease';
+  setTimeout(() => el.style.animation = '', 400);
+}
+
+// ══════════════════════════════════════
+// VIDEO CHECKBOXES
+// ══════════════════════════════════════
+function buildVideoCheckboxes(containerId, selected=[]) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = VIDEOS.map(v => `
+    <label class="video-checkbox-item">
+      <input type="checkbox" value="${v.id}" ${selected.includes(v.id) ? 'checked' : ''}>
+      <label>${v.title}</label>
+    </label>
+  `).join('');
+}
+
+function selectAllVideos(val) {
+  document.querySelectorAll('#videoCheckboxes input[type="checkbox"]').forEach(cb => cb.checked = val);
+}
+
+function getSelectedVideos(containerId) {
+  return Array.from(document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`)).map(cb => parseInt(cb.value));
+}
+
+// ══════════════════════════════════════
+// ADMIN — STUDENTS
+// ══════════════════════════════════════
+function createStudent() {
+  const u = document.getElementById('newStudentUser').value.trim();
+  const p = document.getElementById('newStudentPass').value;
+  const errEl = document.getElementById('createError');
+  const sucEl = document.getElementById('createSuccess');
+  errEl.classList.remove('show');
+  sucEl.classList.remove('show');
+
+  if (!u || !p) { errEl.textContent = 'Username and password required.'; errEl.classList.add('show'); return; }
+
+  const students = loadStudents();
+  if (students.find(s => s.username === u)) {
+    errEl.textContent = 'Username already exists.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  const selected = getSelectedVideos('videoCheckboxes');
+  students.push({ username: u, password: p, active: true, videos: selected });
+  saveStudents(students);
+
+  document.getElementById('newStudentUser').value = '';
+  document.getElementById('newStudentPass').value = '';
+  selectAllVideos(false);
+  sucEl.classList.add('show');
+  setTimeout(() => sucEl.classList.remove('show'), 3000);
+  renderStudentsTable();
+}
+
+function toggleStudent(username) {
+  const students = loadStudents();
+  const s = students.find(s => s.username === username);
+  if (s) s.active = !s.active;
+  saveStudents(students);
+  renderStudentsTable();
+}
+
+function deleteStudent(username) {
+  if (!confirm(`Delete student "${username}"? This cannot be undone.`)) return;
+  const students = loadStudents().filter(s => s.username !== username);
+  saveStudents(students);
+  renderStudentsTable();
+}
+
+function openEditModal(username) {
+  editingStudentUser = username;
+  const students = loadStudents();
+  const s = students.find(s => s.username === username);
+  buildVideoCheckboxes('editVideoCheckboxes', s ? s.videos : []);
+  document.getElementById('editModal').classList.add('active');
+}
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('active');
+  editingStudentUser = null;
+}
+function saveVideoEdit() {
+  if (!editingStudentUser) return;
+  const students = loadStudents();
+  const s = students.find(s => s.username === editingStudentUser);
+  if (s) s.videos = getSelectedVideos('editVideoCheckboxes');
+  saveStudents(students);
+  renderStudentsTable();
+  closeEditModal();
+}
+
+function renderStudentsTable() {
+  const students = loadStudents();
+  const c = document.getElementById('studentsTableContainer');
+  const countEl = document.getElementById('studentCount');
+  countEl.textContent = `${students.length} student${students.length!==1?'s':''}`;
+
+  if (!students.length) {
+    c.innerHTML = `<div class="empty-state"><div class="empty-state-icon">👤</div><div class="empty-state-text">No students yet.</div></div>`;
+    return;
+  }
+
+  c.innerHTML = `
+    <table class="student-table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Videos</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${students.map(s => `
+          <tr>
+            <td><strong>${s.username}</strong></td>
+            <td><span class="videos-pill" onclick="openEditModal('${s.username}')">${s.videos ? s.videos.length : 0} videos ✏️</span></td>
+            <td>
+              <span class="status-badge ${s.active ? 'active' : 'disabled'}">
+                <span class="status-dot"></span>
+                ${s.active ? 'Active' : 'Disabled'}
+              </span>
+            </td>
+            <td>
+              <div class="action-btns">
+                ${s.active
+                  ? `<button class="btn-action btn-disable" onclick="toggleStudent('${s.username}')">Disable</button>`
+                  : `<button class="btn-action btn-enable" onclick="toggleStudent('${s.username}')">Enable</button>`
+                }
+                <button class="btn-action btn-delete" onclick="deleteStudent('${s.username}')">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+// ══════════════════════════════════════
+// STUDENT — LECTURES
+// ══════════════════════════════════════
+function renderLectures(videoIds) {
+  const grid = document.getElementById('lecturesGrid');
+  if (!videoIds || !videoIds.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><div class="empty-state-text">No videos assigned yet. Contact your admin.</div></div>`;
+    return;
+  }
+  const assigned = VIDEOS.filter(v => videoIds.includes(v.id));
+  grid.innerHTML = assigned.map(v => `
+    <div class="lecture-card" onclick="openVideo(${v.id})">
+      <div class="lecture-thumb">
+        <span class="lecture-num">Lecture ${v.id}</span>
+        <div class="play-btn">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      </div>
+      <div class="lecture-info">
+        <div class="lecture-title">${v.title}</div>
+        <div class="lecture-meta">Click to play</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════
+// VIDEO PLAYER + SECURITY
+// ══════════════════════════════════════
+function openVideo(id) {
+  const v = VIDEOS.find(v => v.id === id);
+  if (!v) return;
+  document.getElementById('modalTitle').textContent = v.title;
+
+  // Use OneDrive embed format
+  const frame = document.getElementById('videoFrame');
+  // Build embed URL for OneDrive
+  const embedUrl = v.url + '&action=embedview&wdbipreference=1';
+  frame.src = embedUrl;
+
+  document.getElementById('videoModal').classList.add('active');
+  videoPlaying = true;
+
+  // Block PiP
+  try {
+    const iframeDoc = frame.contentDocument || frame.contentWindow?.document;
+    if (iframeDoc) {
+      const vids = iframeDoc.querySelectorAll('video');
+      vids.forEach(vid => { vid.disablePictureInPicture = true; });
+    }
+  } catch(e) {}
+}
+
+function closeVideo() {
+  document.getElementById('videoModal').classList.remove('active');
+  document.getElementById('videoFrame').src = '';
+  videoPlaying = false;
+  document.getElementById('videoScreenBlock').classList.remove('active');
+}
+
+// Tab visibility — hide video when user switches tab
+document.addEventListener('visibilitychange', () => {
+  if (videoPlaying) {
+    if (document.hidden) {
+      document.getElementById('videoScreenBlock').classList.add('active');
+      document.getElementById('videoFrame').src = '';
+    } else {
+      // Don't auto-resume, require user to reopen
+      document.getElementById('videoScreenBlock').classList.remove('active');
+    }
+  }
+});
+
+// Escape key handling
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && videoPlaying) {
+    document.getElementById('videoScreenBlock').classList.add('active');
+    document.getElementById('videoFrame').src = '';
+  }
+  // Block F12, Ctrl+Shift+I, Ctrl+U
+  if (e.key === 'F12') e.preventDefault();
+  if (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) e.preventDefault();
+  if (e.ctrlKey && e.key === 'u') e.preventDefault();
+  if (e.ctrlKey && e.key === 's') e.preventDefault();
+  if (e.ctrlKey && e.key === 'p') e.preventDefault();
+});
+
+// Block right-click
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// Block drag
+document.addEventListener('dragstart', e => e.preventDefault());
+
+// Block print
+window.addEventListener('beforeprint', e => {
+  document.body.style.display = 'none';
+});
+window.addEventListener('afterprint', e => {
+  document.body.style.display = '';
+});
+
+// Block screenshot / screen capture detection (best-effort)
+// When MediaDevices capture is attempted, show warning
+if (navigator.mediaDevices) {
+  const origGetDisplayMedia = navigator.mediaDevices.getDisplayMedia?.bind(navigator.mediaDevices);
+  if (origGetDisplayMedia) {
+    navigator.mediaDevices.getDisplayMedia = async function(constraints) {
+      if (videoPlaying) {
+        document.getElementById('videoFrame').src = '';
+        document.getElementById('videoScreenBlock').classList.add('active');
+        const msg = document.getElementById('videoScreenBlock').querySelector('.video-screen-block-sub');
+        if (msg) msg.textContent = 'Screen recording detected. Video stopped.';
+      }
+      return origGetDisplayMedia(constraints);
+    };
+  }
+}
+
+// Window blur (switching app/tab)
+window.addEventListener('blur', () => {
+  if (videoPlaying) {
+    document.getElementById('videoScreenBlock').classList.add('active');
+    document.getElementById('videoFrame').src = '';
+  }
+});
+window.addEventListener('focus', () => {
+  if (videoPlaying) {
+    document.getElementById('videoScreenBlock').classList.remove('active');
+  }
+});
+
+// Block inspect via devtools detection (basic)
+let devtoolsOpen = false;
+setInterval(() => {
+  const t = performance.now();
+  debugger;
+  if (performance.now() - t > 100) {
+    if (!devtoolsOpen) {
+      devtoolsOpen = true;
+      if (videoPlaying) {
+        document.getElementById('videoFrame').src = '';
+        closeVideo();
+      }
+    }
+  } else { devtoolsOpen = false; }
+}, 1000);
+
+// CSS: disable copy
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('cut', e => e.preventDefault());
+
+// Shake animation
+const style = document.createElement('style');
+style.textContent = `@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)} }`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
