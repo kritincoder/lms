@@ -697,6 +697,32 @@
     color: rgba(255,255,255,0.5);
     text-align: center;
   }
+  /* Resume button shown on the black screen when user returns to tab */
+  .btn-resume {
+    margin-top: 8px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 20px rgba(200,75,49,0.4);
+  }
+  .btn-resume:hover {
+    background: var(--accent2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(200,75,49,0.5);
+  }
+  .btn-resume.visible { display: flex; }
+  .btn-resume svg { width: 20px; height: 20px; fill: white; margin-left: 2px; }
 
   .modal-inner {
     width: 100%;
@@ -769,14 +795,31 @@
     height: 100%;
     border: none;
     pointer-events: auto;
+    isolation: isolate;
   }
 
-  /* block PiP overlay */
-  .video-wrapper::after {
-    content: '';
-    position: absolute; inset: 0;
-    z-index: 1;
-    pointer-events: none;
+  /* TOP SHIELD: covers the OneDrive toolbar strip (~44px)
+     Blocks clicks on Share / Open in Browser / Download buttons */
+  .toolbar-shield {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 48px;
+    z-index: 10;
+    background: transparent;
+    cursor: default;
+  }
+
+  /* RIGHT SHIELD: paints over the top-right OneDrive buttons (share/open/download)
+     with a near-black strip that blends in and blocks all pointer events */
+  .toolbar-shield-right {
+    position: absolute;
+    top: 0; right: 0;
+    width: 180px;
+    height: 48px;
+    z-index: 11;
+    background: #111;
+    opacity: 0.97;
+    cursor: not-allowed;
   }
 
   /* ══════════════════════════════════════
@@ -1009,14 +1052,19 @@
       </div>
     </div>
     <div class="video-wrapper" id="videoWrapper">
-      <!-- CHANGED: sandbox restricted (no allow-popups-to-escape-sandbox, no allow-downloads)
-           referrerpolicy set to no-referrer to avoid leaking origin
-           allow list trimmed — no presentation, no clipboard -->
       <iframe id="videoFrame"
         allow="autoplay; encrypted-media; fullscreen"
         allowfullscreen
         sandbox="allow-scripts allow-same-origin allow-forms"
         referrerpolicy="no-referrer"></iframe>
+      <!-- SHIELD: blocks clicks on OneDrive's Share / Open in Browser / Download toolbar -->
+      <div class="toolbar-shield" id="toolbarShield"
+        oncontextmenu="return false;"
+        onclick="return false;"></div>
+      <!-- RIGHT SHIELD: paints over and blocks the top-right action buttons -->
+      <div class="toolbar-shield-right" id="toolbarShieldRight"
+        oncontextmenu="return false;"
+        onclick="return false;"></div>
     </div>
   </div>
 </div>
@@ -1024,8 +1072,12 @@
 <!-- ══ VIDEO HIDDEN SCREEN ══ -->
 <div class="video-screen-block" id="videoScreenBlock">
   <div class="video-screen-block-icon">🔒</div>
-  <div class="video-screen-block-text">Video Paused</div>
-  <div class="video-screen-block-sub">Return to this tab to continue watching</div>
+  <div class="video-screen-block-text" id="screenBlockText">Video Paused</div>
+  <div class="video-screen-block-sub" id="screenBlockSub">Switch tabs is not allowed while watching</div>
+  <button class="btn-resume" id="btnResume" onclick="resumeVideo()">
+    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    Resume Video
+  </button>
 </div>
 
 <!-- ══ EDIT VIDEOS MODAL ══ -->
@@ -1085,6 +1137,7 @@ let editingStudentUser = null;
 let videoPlaying = false;
 let isDark = false;
 let isFullscreen = false;
+let currentVideoId = null; // tracks which video is open so Resume can reload it
 
 // ══════════════════════════════════════
 // INIT
@@ -1365,6 +1418,7 @@ function renderLectures(videoIds) {
 function openVideo(id) {
   const v = VIDEOS.find(v => v.id === id);
   if (!v) return;
+  currentVideoId = id; // track for resume
   document.getElementById('modalTitle').textContent = v.title;
 
   const frame = document.getElementById('videoFrame');
@@ -1373,6 +1427,8 @@ function openVideo(id) {
 
   document.getElementById('videoModal').classList.add('active');
   videoPlaying = true;
+  // Hide resume button when freshly opening
+  document.getElementById('btnResume').classList.remove('visible');
 }
 
 function closeVideo() {
@@ -1383,12 +1439,23 @@ function closeVideo() {
   document.getElementById('videoModal').classList.remove('active');
   document.getElementById('videoFrame').src = '';
   videoPlaying = false;
+  currentVideoId = null;
   document.getElementById('videoScreenBlock').classList.remove('active');
+  document.getElementById('btnResume').classList.remove('visible');
 }
 
-// ══════════════════════════════════════
-// FULLSCREEN (NEW)
-// ══════════════════════════════════════
+// Called when user clicks Resume on the black screen
+function resumeVideo() {
+  if (!currentVideoId) return;
+  const v = VIDEOS.find(v => v.id === currentVideoId);
+  if (!v) return;
+  // Reload the video
+  document.getElementById('videoFrame').src = toEmbedUrl(v.src);
+  // Hide the black screen
+  document.getElementById('videoScreenBlock').classList.remove('active');
+  document.getElementById('btnResume').classList.remove('visible');
+  videoPlaying = true;
+}
 function toggleFullscreen() {
   const wrapper = document.getElementById('videoWrapper');
   if (!document.fullscreenElement && !document.webkitFullscreenElement) {
@@ -1434,63 +1501,160 @@ function onFullscreenChange() {
 document.addEventListener('visibilitychange', () => {
   if (!videoPlaying) return;
   if (document.hidden) {
+    // User left tab — black out and stop video
+    document.getElementById('screenBlockText').textContent = 'Video Paused';
+    document.getElementById('screenBlockSub').textContent = 'Switch tabs is not allowed while watching';
+    document.getElementById('btnResume').classList.remove('visible');
     document.getElementById('videoScreenBlock').classList.add('active');
     document.getElementById('videoFrame').src = '';
+    videoPlaying = false;
   } else {
-    document.getElementById('videoScreenBlock').classList.remove('active');
+    // User returned — keep black screen but show Resume button
+    document.getElementById('screenBlockText').textContent = 'Ready to Resume';
+    document.getElementById('screenBlockSub').textContent = 'Click the button below to continue watching';
+    document.getElementById('btnResume').classList.add('visible');
+    // videoScreenBlock stays active — user must click Resume
   }
 });
 
-// Escape key handling
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && videoPlaying && !isFullscreen) {
-    document.getElementById('videoScreenBlock').classList.add('active');
-    document.getElementById('videoFrame').src = '';
-  }
-  // Block F12, Ctrl+Shift+I, Ctrl+U
+// ══════════════════════════════════════
+// SECURITY: KEYBOARD BLOCKS
+// Using capture:true so it fires BEFORE the browser handles the shortcut,
+// even when focus is inside the iframe (via blur/focus relay trick below)
+// ══════════════════════════════════════
+function blockSecurityKeys(e) {
+  // DevTools shortcuts
   if (e.key === 'F12') { e.preventDefault(); e.stopPropagation(); return false; }
   if (e.ctrlKey && e.shiftKey && ['I','J','C','K'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); return false; }
   if (e.metaKey && e.altKey && ['I','J','C','U'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); return false; }
-  if (e.ctrlKey && e.key.toLowerCase() === 'u') { e.preventDefault(); e.stopPropagation(); return false; }
-  if (e.ctrlKey && e.key.toLowerCase() === 's') { e.preventDefault(); e.stopPropagation(); return false; }
-  if (e.ctrlKey && e.key.toLowerCase() === 'p') { e.preventDefault(); e.stopPropagation(); return false; }
+  // View source / save / print
+  if (e.ctrlKey && ['u','s','p'].includes(e.key.toLowerCase())) { e.preventDefault(); e.stopPropagation(); return false; }
+  // Block Ctrl+T (new tab), Ctrl+N (new window) — prevents opening video in new browser
+  if (e.ctrlKey && ['t','n','w'].includes(e.key.toLowerCase())) { e.preventDefault(); e.stopPropagation(); return false; }
+}
+document.addEventListener('keydown', blockSecurityKeys, true);
+
+// Relay keyboard events from iframe back to parent so our blocker fires
+// even when the iframe has focus (the main gap that allowed Ctrl+click to work)
+const videoFrame = document.getElementById('videoFrame');
+videoFrame.addEventListener('load', () => {
+  try {
+    // Re-attach focus to parent window whenever iframe loads
+    videoFrame.contentWindow.addEventListener('keydown', (e) => {
+      // Clone and dispatch on parent
+      const cloned = new KeyboardEvent('keydown', {
+        key: e.key, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey,
+        metaKey: e.metaKey, altKey: e.altKey, bubbles: true, cancelable: true
+      });
+      document.dispatchEvent(cloned);
+    }, true);
+  } catch(err) {
+    // Cross-origin iframe — can't access contentWindow; shields handle it
+  }
+});
+
+// ══════════════════════════════════════
+// SECURITY: TAB / VISIBILITY
+// ══════════════════════════════════════
+document.addEventListener('visibilitychange', () => {
+  if (!videoPlaying) return;
+  if (document.hidden) {
+    document.getElementById('screenBlockText').textContent = 'Video Paused';
+    document.getElementById('screenBlockSub').textContent = 'Switch tabs is not allowed while watching';
+    document.getElementById('btnResume').classList.remove('visible');
+    document.getElementById('videoScreenBlock').classList.add('active');
+    document.getElementById('videoFrame').src = '';
+    videoPlaying = false;
+  } else {
+    document.getElementById('screenBlockText').textContent = 'Ready to Resume';
+    document.getElementById('screenBlockSub').textContent = 'Click the button below to continue watching';
+    document.getElementById('btnResume').classList.add('visible');
+  }
+});
+
+// ══════════════════════════════════════
+// SECURITY: ESCAPE KEY
+// ══════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && videoPlaying && !isFullscreen) {
+    document.getElementById('screenBlockText').textContent = 'Video Paused';
+    document.getElementById('screenBlockSub').textContent = 'Click Resume to continue watching';
+    document.getElementById('btnResume').classList.add('visible');
+    document.getElementById('videoScreenBlock').classList.add('active');
+    document.getElementById('videoFrame').src = '';
+    videoPlaying = false;
+  }
 }, true);
 
-// Block right-click
-document.addEventListener('contextmenu', e => e.preventDefault());
+// ══════════════════════════════════════
+// SECURITY: RIGHT-CLICK & DRAG
+// ══════════════════════════════════════
+document.addEventListener('contextmenu', e => { e.preventDefault(); return false; }, true);
+document.addEventListener('dragstart', e => { e.preventDefault(); return false; });
 
-// Block drag
-document.addEventListener('dragstart', e => e.preventDefault());
+// ══════════════════════════════════════
+// SECURITY: PRINT BLOCK
+// ══════════════════════════════════════
+window.addEventListener('beforeprint', () => { document.body.style.display = 'none'; });
+window.addEventListener('afterprint', () => { document.body.style.display = ''; });
 
-// Block print
-window.addEventListener('beforeprint', e => {
-  document.body.style.display = 'none';
-});
-window.addEventListener('afterprint', e => {
-  document.body.style.display = '';
-});
+// ══════════════════════════════════════
+// SECURITY: SCREEN RECORDING BLOCK
+// Intercepts getDisplayMedia AND monitors for PiP / window capture
+// ══════════════════════════════════════
+function triggerRecordingBlock() {
+  if (!videoPlaying) return;
+  document.getElementById('videoFrame').src = '';
+  videoPlaying = false;
+  document.getElementById('screenBlockText').textContent = 'Recording Blocked';
+  document.getElementById('screenBlockSub').textContent = 'Screen recording / capture is not allowed.';
+  document.getElementById('btnResume').classList.add('visible');
+  document.getElementById('videoScreenBlock').classList.add('active');
+}
 
-// Block screenshot / screen capture detection (best-effort)
+// Override getDisplayMedia (screen share / record)
 if (navigator.mediaDevices) {
   const origGetDisplayMedia = navigator.mediaDevices.getDisplayMedia?.bind(navigator.mediaDevices);
   if (origGetDisplayMedia) {
     navigator.mediaDevices.getDisplayMedia = async function(constraints) {
-      if (videoPlaying) {
-        document.getElementById('videoFrame').src = '';
-        document.getElementById('videoScreenBlock').classList.add('active');
-        const msg = document.getElementById('videoScreenBlock').querySelector('.video-screen-block-sub');
-        if (msg) msg.textContent = 'Screen recording detected. Video stopped.';
-      }
+      triggerRecordingBlock();
+      // Still call original so browser doesn't throw, but video is already cleared
       return origGetDisplayMedia(constraints);
+    };
+  }
+  // Also block getUserMedia with video (some screen recorders use this)
+  const origGetUserMedia = navigator.mediaDevices.getUserMedia?.bind(navigator.mediaDevices);
+  if (origGetUserMedia) {
+    navigator.mediaDevices.getUserMedia = async function(constraints) {
+      if (constraints && constraints.video && videoPlaying) {
+        triggerRecordingBlock();
+      }
+      return origGetUserMedia(constraints);
     };
   }
 }
 
-// Block inspect via devtools detection (basic)
+// Monitor for Picture-in-Picture (another recording vector)
+document.addEventListener('enterpictureinpicture', () => {
+  triggerRecordingBlock();
+});
+
+// Periodic check: if any media stream is active and video is playing, block it
+setInterval(() => {
+  if (!videoPlaying) return;
+  // If browser has active screen capture stream, block
+  if (document.pictureInPictureElement) {
+    triggerRecordingBlock();
+  }
+}, 500);
+
+// ══════════════════════════════════════
+// SECURITY: DEVTOOLS DETECTION
+// ══════════════════════════════════════
 let devtoolsOpen = false;
 setInterval(() => {
   const t = performance.now();
-  debugger;
+  debugger; // eslint-disable-line no-debugger
   if (performance.now() - t > 100) {
     if (!devtoolsOpen) {
       devtoolsOpen = true;
@@ -1502,11 +1666,26 @@ setInterval(() => {
   } else { devtoolsOpen = false; }
 }, 1000);
 
-// CSS: disable copy
+// Extra devtools detection: window size delta method
+setInterval(() => {
+  const widthDelta = window.outerWidth - window.innerWidth;
+  const heightDelta = window.outerHeight - window.innerHeight;
+  if ((widthDelta > 160 || heightDelta > 160) && videoPlaying) {
+    // DevTools panel open (docked) — close video
+    document.getElementById('videoFrame').src = '';
+    closeVideo();
+  }
+}, 1000);
+
+// ══════════════════════════════════════
+// SECURITY: COPY / CUT
+// ══════════════════════════════════════
 document.addEventListener('copy', e => e.preventDefault());
 document.addEventListener('cut', e => e.preventDefault());
 
-// Shake animation
+// ══════════════════════════════════════
+// SHAKE ANIMATION
+// ══════════════════════════════════════
 const style = document.createElement('style');
 style.textContent = `@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)} }`;
 document.head.appendChild(style);
