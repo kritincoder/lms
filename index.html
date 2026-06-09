@@ -798,8 +798,8 @@
     isolation: isolate;
   }
 
-  /* TOP SHIELD: covers the OneDrive toolbar strip (~44px)
-     Blocks clicks on Share / Open in Browser / Download buttons */
+  /* TOP SHIELD: transparent overlay covering the OneDrive toolbar strip
+     Blocks all clicks (Share, Open in Browser, Download) without any visual change */
   .toolbar-shield {
     position: absolute;
     top: 0; left: 0; right: 0;
@@ -807,19 +807,6 @@
     z-index: 10;
     background: transparent;
     cursor: default;
-  }
-
-  /* RIGHT SHIELD: paints over the top-right OneDrive buttons (share/open/download)
-     with a near-black strip that blends in and blocks all pointer events */
-  .toolbar-shield-right {
-    position: absolute;
-    top: 0; right: 0;
-    width: 180px;
-    height: 48px;
-    z-index: 11;
-    background: #111;
-    opacity: 0.97;
-    cursor: not-allowed;
   }
 
   /* ══════════════════════════════════════
@@ -1057,12 +1044,8 @@
         allowfullscreen
         sandbox="allow-scripts allow-same-origin allow-forms"
         referrerpolicy="no-referrer"></iframe>
-      <!-- SHIELD: blocks clicks on OneDrive's Share / Open in Browser / Download toolbar -->
+      <!-- SHIELD: transparent overlay blocks clicks on OneDrive toolbar (Share / Open in Browser) -->
       <div class="toolbar-shield" id="toolbarShield"
-        oncontextmenu="return false;"
-        onclick="return false;"></div>
-      <!-- RIGHT SHIELD: paints over and blocks the top-right action buttons -->
-      <div class="toolbar-shield-right" id="toolbarShieldRight"
         oncontextmenu="return false;"
         onclick="return false;"></div>
     </div>
@@ -1497,25 +1480,6 @@ function onFullscreenChange() {
   }
 }
 
-// Tab switch detection ONLY via visibilitychange (reliable, doesn't false-trigger on iframe clicks)
-document.addEventListener('visibilitychange', () => {
-  if (!videoPlaying) return;
-  if (document.hidden) {
-    // User left tab — black out and stop video
-    document.getElementById('screenBlockText').textContent = 'Video Paused';
-    document.getElementById('screenBlockSub').textContent = 'Switch tabs is not allowed while watching';
-    document.getElementById('btnResume').classList.remove('visible');
-    document.getElementById('videoScreenBlock').classList.add('active');
-    document.getElementById('videoFrame').src = '';
-    videoPlaying = false;
-  } else {
-    // User returned — keep black screen but show Resume button
-    document.getElementById('screenBlockText').textContent = 'Ready to Resume';
-    document.getElementById('screenBlockSub').textContent = 'Click the button below to continue watching';
-    document.getElementById('btnResume').classList.add('visible');
-    // videoScreenBlock stays active — user must click Resume
-  }
-});
 
 // ══════════════════════════════════════
 // SECURITY: KEYBOARD BLOCKS
@@ -1529,8 +1493,6 @@ function blockSecurityKeys(e) {
   if (e.metaKey && e.altKey && ['I','J','C','U'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); return false; }
   // View source / save / print
   if (e.ctrlKey && ['u','s','p'].includes(e.key.toLowerCase())) { e.preventDefault(); e.stopPropagation(); return false; }
-  // Block Ctrl+T (new tab), Ctrl+N (new window) — prevents opening video in new browser
-  if (e.ctrlKey && ['t','n','w'].includes(e.key.toLowerCase())) { e.preventDefault(); e.stopPropagation(); return false; }
 }
 document.addEventListener('keydown', blockSecurityKeys, true);
 
@@ -1553,38 +1515,7 @@ videoFrame.addEventListener('load', () => {
   }
 });
 
-// ══════════════════════════════════════
-// SECURITY: TAB / VISIBILITY
-// ══════════════════════════════════════
-document.addEventListener('visibilitychange', () => {
-  if (!videoPlaying) return;
-  if (document.hidden) {
-    document.getElementById('screenBlockText').textContent = 'Video Paused';
-    document.getElementById('screenBlockSub').textContent = 'Switch tabs is not allowed while watching';
-    document.getElementById('btnResume').classList.remove('visible');
-    document.getElementById('videoScreenBlock').classList.add('active');
-    document.getElementById('videoFrame').src = '';
-    videoPlaying = false;
-  } else {
-    document.getElementById('screenBlockText').textContent = 'Ready to Resume';
-    document.getElementById('screenBlockSub').textContent = 'Click the button below to continue watching';
-    document.getElementById('btnResume').classList.add('visible');
-  }
-});
-
-// ══════════════════════════════════════
-// SECURITY: ESCAPE KEY
-// ══════════════════════════════════════
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && videoPlaying && !isFullscreen) {
-    document.getElementById('screenBlockText').textContent = 'Video Paused';
-    document.getElementById('screenBlockSub').textContent = 'Click Resume to continue watching';
-    document.getElementById('btnResume').classList.add('visible');
-    document.getElementById('videoScreenBlock').classList.add('active');
-    document.getElementById('videoFrame').src = '';
-    videoPlaying = false;
-  }
-}, true);
+// Tab switching is ALLOWED — students need to practice in other tabs (Salesforce course)
 
 // ══════════════════════════════════════
 // SECURITY: RIGHT-CLICK & DRAG
@@ -1649,32 +1580,63 @@ setInterval(() => {
 }, 500);
 
 // ══════════════════════════════════════
-// SECURITY: DEVTOOLS DETECTION
+// SECURITY: DEVTOOLS DETECTION (multi-signal)
 // ══════════════════════════════════════
 let devtoolsOpen = false;
-setInterval(() => {
-  const t = performance.now();
-  debugger; // eslint-disable-line no-debugger
-  if (performance.now() - t > 100) {
-    if (!devtoolsOpen) {
-      devtoolsOpen = true;
-      if (videoPlaying) {
-        document.getElementById('videoFrame').src = '';
-        closeVideo();
-      }
-    }
-  } else { devtoolsOpen = false; }
-}, 1000);
 
-// Extra devtools detection: window size delta method
-setInterval(() => {
-  const widthDelta = window.outerWidth - window.innerWidth;
-  const heightDelta = window.outerHeight - window.innerHeight;
-  if ((widthDelta > 160 || heightDelta > 160) && videoPlaying) {
-    // DevTools panel open (docked) — close video
+function onDevToolsOpen() {
+  if (devtoolsOpen) return; // already handled
+  devtoolsOpen = true;
+  if (videoPlaying) {
     document.getElementById('videoFrame').src = '';
     closeVideo();
   }
+  // Blank the page content while devtools is open
+  document.body.style.filter = 'blur(20px)';
+  document.body.style.pointerEvents = 'none';
+}
+
+function onDevToolsClosed() {
+  devtoolsOpen = false;
+  document.body.style.filter = '';
+  document.body.style.pointerEvents = '';
+}
+
+// Method 1: debugger timing (catches undocked devtools)
+setInterval(() => {
+  const t = performance.now();
+  debugger; // eslint-disable-line no-debugger
+  const delta = performance.now() - t;
+  if (delta > 100) {
+    onDevToolsOpen();
+  } else {
+    onDevToolsClosed();
+  }
+}, 500);
+
+// Method 2: toString override trick — very reliable, fires the moment devtools opens
+(function devtoolsToStringTrick() {
+  let count = 0;
+  const detector = /./;
+  detector.toString = function() {
+    count++;
+    if (count > 1) onDevToolsOpen();
+    return '';
+  };
+  setInterval(() => {
+    count = 0;
+    console.log('%c', detector); // devtools calls toString on objects logged to console
+    setTimeout(() => { if (count === 0) onDevToolsClosed(); }, 50);
+  }, 500);
+})();
+
+// Method 3: console.profiles trick
+setInterval(() => {
+  const before = new Date();
+  // eslint-disable-next-line no-console
+  console.log(new Array(9999).join('x'));
+  const after = new Date();
+  if (after - before > 20) onDevToolsOpen();
 }, 1000);
 
 // ══════════════════════════════════════
