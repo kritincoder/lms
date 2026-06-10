@@ -885,184 +885,12 @@
     .topbar, .student-topbar { padding: 0 16px; }
     .login-card { padding: 32px 24px; }
   }
-
-  /* ══════════════════════════════════════
-     SETUP WIZARD PAGE
-  ══════════════════════════════════════ */
-  #setupPage {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    min-height: 100vh;
-    background: var(--bg);
-  }
-  .setup-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 40px 48px;
-    width: 100%; max-width: 560px;
-    box-shadow: var(--shadow-lg);
-    animation: slideUp 0.5s cubic-bezier(0.4,0,0.2,1);
-  }
-  .setup-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-  .setup-sub {
-    font-size: 13px;
-    color: var(--text3);
-    margin-bottom: 28px;
-    line-height: 1.6;
-  }
-  .setup-steps {
-    margin-bottom: 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .setup-step {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-  }
-  .setup-step-num {
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: white;
-    font-size: 12px;
-    font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .setup-step-text {
-    font-size: 13.5px;
-    color: var(--text2);
-    line-height: 1.6;
-  }
-  .setup-step-text a {
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .setup-step-text a:hover { text-decoration: underline; }
-  .setup-step-text code {
-    background: var(--bg2);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 12px;
-    color: var(--text);
-    font-family: monospace;
-  }
-  .setup-divider {
-    height: 1px;
-    background: var(--border);
-    margin: 24px 0;
-  }
-  .setup-paste-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-    display: block;
-  }
-  .setup-textarea {
-    width: 100%;
-    height: 130px;
-    padding: 12px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface2);
-    color: var(--text);
-    font-family: monospace;
-    font-size: 12px;
-    resize: vertical;
-    outline: none;
-    transition: var(--transition);
-    line-height: 1.5;
-  }
-  .setup-textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(200,75,49,0.1);
-  }
-  .setup-error {
-    background: var(--red-light);
-    color: var(--red);
-    border: 1px solid rgba(200,75,49,0.2);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 13px;
-    margin-top: 10px;
-    display: none;
-  }
-  .setup-error.show { display: block; }
 </style>
 </head>
 <body>
 
-<!-- ══ SETUP WIZARD (shown only first time) ══ -->
-<div id="setupPage" class="page">
-  <div class="setup-card">
-    <div class="brand" style="margin-bottom:20px;">
-      <div class="brand-name">Kreya <span>Courses</span></div>
-      <div class="brand-tagline">One-time Setup — Takes 3 minutes</div>
-    </div>
-    <div class="setup-title">Connect Your Database</div>
-    <div class="setup-sub">
-      This is a <strong>one-time setup</strong>. After this, just open the file and everything works — on any browser, any device.
-    </div>
-    <div class="setup-steps">
-      <div class="setup-step">
-        <div class="setup-step-num">1</div>
-        <div class="setup-step-text">
-          Open <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> → Click <strong>"Add project"</strong> → Name it anything → Click through and hit <strong>Create project</strong>
-        </div>
-      </div>
-      <div class="setup-step">
-        <div class="setup-step-num">2</div>
-        <div class="setup-step-text">
-          In the left menu click <strong>"Realtime Database"</strong> → <strong>"Create Database"</strong> → pick any region → choose <strong>"Start in test mode"</strong> → click <strong>Enable</strong>
-        </div>
-      </div>
-      <div class="setup-step">
-        <div class="setup-step-num">3</div>
-        <div class="setup-step-text">
-          Click the ⚙️ gear icon → <strong>"Project settings"</strong> → scroll down to <strong>"Your apps"</strong> → click <code>&lt;/&gt;</code> → enter any app name → click <strong>Register app</strong>
-        </div>
-      </div>
-      <div class="setup-step">
-        <div class="setup-step-num">4</div>
-        <div class="setup-step-text">
-          You will see a <code>firebaseConfig = { ... }</code> block. <strong>Copy the entire block</strong> (from the first <code>{</code> to the last <code>}</code>) and paste it below.
-        </div>
-      </div>
-    </div>
-    <div class="setup-divider"></div>
-    <span class="setup-paste-label">Paste your firebaseConfig here</span>
-    <textarea class="setup-textarea" id="setupConfigInput" placeholder='{
-  apiKey: "AIza...",
-  authDomain: "your-project.firebaseapp.com",
-  databaseURL: "https://your-project-default-rtdb.firebaseio.com",
-  projectId: "your-project",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456",
-  appId: "1:123..."
-}'></textarea>
-    <div class="setup-error" id="setupError">Could not connect. Make sure you copied the full config and Realtime Database is enabled.</div>
-    <button class="btn-primary" onclick="saveSetupConfig()" style="margin-top:16px;">Connect & Save Forever</button>
-  </div>
-</div>
-
 <!-- ══ LOGIN PAGE ══ -->
-<div id="loginPage" class="page">
+<div id="loginPage" class="page active">
   <div class="login-bg"></div>
   <div class="theme-toggle-login">
     <div class="theme-toggle" onclick="toggleTheme()">
@@ -1254,33 +1082,29 @@
 
 <script>
 // ══════════════════════════════════════
-// FIREBASE — AUTO INIT
-// Reads saved config from localStorage.
-// If not configured yet, shows setup wizard.
+// FIREBASE CONFIG
+// ──────────────────────────────────────
+// SETUP INSTRUCTIONS (one time only):
+// 1. Go to https://console.firebase.google.com
+// 2. Click "Add project" → name it "kreya-courses" → Create
+// 3. Click "Realtime Database" in left menu → "Create Database"
+//    → Choose region → Start in TEST MODE → Enable
+// 4. Go to Project Settings (gear icon) → "Your apps" → </> (Web)
+//    → Register app → copy the firebaseConfig values below
+// 5. Replace the placeholder values below with your actual config
 // ══════════════════════════════════════
-let db = null;
+const firebaseConfig = {
+  apiKey:            "YOUR_API_KEY",
+  authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
+  databaseURL:       "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+  projectId:         "YOUR_PROJECT_ID",
+  storageBucket:     "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId:             "YOUR_APP_ID"
+};
 
-function getSavedConfig() {
-  try { return JSON.parse(localStorage.getItem('kreya_firebase_config') || 'null'); } catch { return null; }
-}
-
-function initFirebase(config) {
-  try {
-    if (!firebase.apps.length) {
-      firebase.initializeApp(config);
-    }
-    db = firebase.database();
-    return true;
-  } catch(e) {
-    return false;
-  }
-}
-
-// Try to init from saved config immediately
-const savedConfig = getSavedConfig();
-if (savedConfig) {
-  initFirebase(savedConfig);
-}
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
 // ══════════════════════════════════════
 // DATA
@@ -1346,70 +1170,6 @@ let isFullscreen = false;
 let currentVideoId = null; // tracks which video is open so Resume can reload it
 
 // ══════════════════════════════════════
-// SETUP WIZARD
-// ══════════════════════════════════════
-function saveSetupConfig() {
-  const raw = document.getElementById('setupConfigInput').value.trim();
-  const errEl = document.getElementById('setupError');
-  const btn = document.querySelector('#setupPage .btn-primary');
-  errEl.style.display = 'none';
-
-  // Parse the pasted config — supports both JS object and JSON formats
-  let config = null;
-  try {
-    // Try direct JSON parse first
-    config = JSON.parse(raw);
-  } catch {
-    try {
-      // Try converting JS object literal to JSON (handle unquoted keys)
-      const jsonStr = raw
-        .replace(/\/\/.*$/gm, '')           // remove comments
-        .replace(/,\s*([}\]])/g, '$1')      // remove trailing commas
-        .replace(/([{,]\s*)([a-zA-Z_]\w*)\s*:/g, '$1"$2":'); // quote keys
-      config = JSON.parse(jsonStr);
-    } catch {
-      errEl.textContent = 'Could not read the config. Make sure you copied the full { ... } block.';
-      errEl.style.display = 'block';
-      return;
-    }
-  }
-
-  if (!config.apiKey || !config.databaseURL) {
-    errEl.textContent = 'Missing apiKey or databaseURL. Make sure Realtime Database is enabled in Firebase.';
-    errEl.style.display = 'block';
-    return;
-  }
-
-  btn.textContent = 'Connecting…';
-  btn.disabled = true;
-
-  // Try to init and do a test read
-  try {
-    if (!firebase.apps.length) firebase.initializeApp(config);
-    db = firebase.database();
-    // Test connection with a small read
-    db.ref('.info/connected').once('value').then(() => {
-      // Save config permanently
-      localStorage.setItem('kreya_firebase_config', JSON.stringify(config));
-      btn.textContent = 'Connect & Save Forever';
-      btn.disabled = false;
-      // Go to login
-      showPage('loginPage');
-    }).catch(() => {
-      btn.textContent = 'Connect & Save Forever';
-      btn.disabled = false;
-      errEl.textContent = 'Could not connect. Check your databaseURL and make sure Realtime Database is enabled.';
-      errEl.style.display = 'block';
-    });
-  } catch(e) {
-    btn.textContent = 'Connect & Save Forever';
-    btn.disabled = false;
-    errEl.textContent = 'Invalid config: ' + e.message;
-    errEl.style.display = 'block';
-  }
-}
-
-// ══════════════════════════════════════
 // INIT
 // ══════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
@@ -1424,13 +1184,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('webkitfullscreenchange', onFullscreenChange);
   document.addEventListener('mozfullscreenchange', onFullscreenChange);
   document.addEventListener('MSFullscreenChange', onFullscreenChange);
-
-  // Show setup wizard if Firebase not configured yet, else go straight to login
-  if (!getSavedConfig() || !db) {
-    showPage('setupPage');
-  } else {
-    showPage('loginPage');
-  }
 });
 
 // Live Firebase listener — admin table updates in real-time across all browsers
