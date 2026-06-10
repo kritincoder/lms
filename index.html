@@ -49,7 +49,7 @@
   }
 
   * { margin:0; padding:0; box-sizing:border-box; }
-  
+
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
@@ -80,7 +80,6 @@
     position: relative;
     overflow: hidden;
   }
-
   .login-bg {
     position: fixed; inset: 0; z-index: 0;
     background: var(--bg);
@@ -101,7 +100,6 @@
     background: radial-gradient(circle, rgba(232,105,58,0.08) 0%, transparent 70%);
     border-radius: 50%;
   }
-
   .login-card {
     position: relative; z-index: 1;
     background: var(--surface);
@@ -112,387 +110,167 @@
     box-shadow: var(--shadow-lg);
     animation: slideUp 0.5s cubic-bezier(0.4,0,0.2,1);
   }
-
   @keyframes slideUp {
     from { opacity:0; transform: translateY(24px); }
     to { opacity:1; transform: translateY(0); }
   }
-
-  .brand {
-    text-align: center;
-    margin-bottom: 32px;
-  }
+  .brand { text-align: center; margin-bottom: 32px; }
   .brand-name {
     font-family: 'Syne', sans-serif;
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.5px;
+    font-size: 28px; font-weight: 800;
+    color: var(--text); letter-spacing: -0.5px;
   }
   .brand-name span { color: var(--accent); }
-  .brand-tagline {
-    font-size: 13px;
-    color: var(--text3);
-    margin-top: 4px;
-    font-weight: 300;
-  }
+  .brand-tagline { font-size: 13px; color: var(--text3); margin-top: 4px; font-weight: 300; }
 
   .tab-switcher {
-    display: flex;
-    background: var(--bg2);
-    border-radius: 10px;
-    padding: 4px;
-    margin-bottom: 28px;
-    gap: 4px;
+    display: flex; background: var(--bg2);
+    border-radius: 10px; padding: 4px; margin-bottom: 28px; gap: 4px;
   }
   .tab-btn {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 7px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    background: transparent;
-    color: var(--text2);
-    transition: var(--transition);
+    flex: 1; padding: 10px; border: none; border-radius: 7px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+    cursor: pointer; background: transparent; color: var(--text2); transition: var(--transition);
   }
-  .tab-btn.active {
-    background: var(--surface);
-    color: var(--text);
-    box-shadow: var(--shadow);
-  }
+  .tab-btn.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
 
-  .form-group {
-    margin-bottom: 18px;
-  }
+  .form-group { margin-bottom: 18px; }
   .form-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 8px;
+    display: block; font-size: 12px; font-weight: 500; color: var(--text2);
+    text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;
   }
   .form-input {
-    width: 100%;
-    padding: 13px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface2);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    transition: var(--transition);
-    outline: none;
+    width: 100%; padding: 13px 16px; border: 1.5px solid var(--border);
+    border-radius: var(--radius); background: var(--surface2); color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 15px; transition: var(--transition); outline: none;
   }
   .form-input:focus {
-    border-color: var(--accent);
-    background: var(--surface);
+    border-color: var(--accent); background: var(--surface);
     box-shadow: 0 0 0 3px rgba(200,75,49,0.1);
   }
-
   .btn-primary {
-    width: 100%;
-    padding: 14px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-family: 'Syne', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    margin-top: 8px;
-    letter-spacing: 0.3px;
+    width: 100%; padding: 14px; background: var(--accent); color: white;
+    border: none; border-radius: var(--radius); font-family: 'Syne', sans-serif;
+    font-size: 15px; font-weight: 600; cursor: pointer; transition: var(--transition);
+    margin-top: 8px; letter-spacing: 0.3px;
   }
-  .btn-primary:hover {
-    background: var(--accent2);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(200,75,49,0.3);
-  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(200,75,49,0.3); }
   .btn-primary:active { transform: translateY(0); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
   .error-msg {
-    background: var(--red-light);
-    color: var(--red);
-    border: 1px solid rgba(200,75,49,0.2);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 13px;
-    margin-top: 12px;
-    display: none;
-    text-align: center;
+    background: var(--red-light); color: var(--red);
+    border: 1px solid rgba(200,75,49,0.2); border-radius: 8px;
+    padding: 10px 14px; font-size: 13px; margin-top: 12px; display: none; text-align: center;
   }
   .error-msg.show { display: block; }
 
-  .theme-toggle-login {
-    position: fixed;
-    top: 20px; right: 20px;
-    z-index: 10;
-  }
+  .theme-toggle-login { position: fixed; top: 20px; right: 20px; z-index: 10; }
 
   /* ══════════════════════════════════════
-     THEME TOGGLE BUTTON
+     THEME TOGGLE
   ══════════════════════════════════════ */
-  .theme-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-  }
-  .theme-toggle-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text3);
-    letter-spacing: 0.3px;
-    user-select: none;
-  }
+  .theme-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .theme-toggle-label { font-size: 12px; font-weight: 500; color: var(--text3); letter-spacing: 0.3px; user-select: none; }
   .toggle-track {
-    width: 44px; height: 24px;
-    border-radius: 12px;
-    background: var(--bg2);
-    border: 1.5px solid var(--border);
-    position: relative;
-    cursor: pointer;
-    transition: var(--transition);
+    width: 44px; height: 24px; border-radius: 12px;
+    background: var(--bg2); border: 1.5px solid var(--border);
+    position: relative; cursor: pointer; transition: var(--transition);
   }
-  .toggle-track.on {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
+  .toggle-track.on { background: var(--accent); border-color: var(--accent); }
   .toggle-thumb {
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    background: var(--text3);
-    position: absolute;
-    top: 50%; transform: translateY(-50%);
-    left: 3px;
-    transition: var(--transition);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    width: 16px; height: 16px; border-radius: 50%; background: var(--text3);
+    position: absolute; top: 50%; transform: translateY(-50%);
+    left: 3px; transition: var(--transition); box-shadow: 0 1px 4px rgba(0,0,0,0.2);
   }
-  .toggle-track.on .toggle-thumb {
-    left: calc(100% - 19px);
-    background: white;
-  }
+  .toggle-track.on .toggle-thumb { left: calc(100% - 19px); background: white; }
 
   /* ══════════════════════════════════════
      ADMIN PANEL
   ══════════════════════════════════════ */
-  #adminPage {
-    flex-direction: column;
-    min-height: 100vh;
-  }
-
+  #adminPage { flex-direction: column; min-height: 100vh; }
   .topbar {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 32px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
-    box-shadow: var(--shadow);
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 0 32px; height: 64px; display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow);
   }
-  .topbar-brand {
-    font-family: 'Syne', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.3px;
-  }
+  .topbar-brand { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
   .topbar-brand span { color: var(--accent); }
   .topbar-right { display: flex; align-items: center; gap: 12px; }
   .topbar-badge {
-    background: var(--accent-light);
-    color: var(--accent);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
+    background: var(--accent-light); color: var(--accent); font-size: 11px;
+    font-weight: 600; padding: 4px 10px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.8px;
   }
   .btn-logout {
-    padding: 8px 18px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    background: transparent;
-    color: var(--text2);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
+    padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px;
+    background: transparent; color: var(--text2); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500; cursor: pointer; transition: var(--transition);
   }
   .btn-logout:hover { border-color: var(--accent); color: var(--accent); }
 
-  .admin-content {
-    flex: 1;
-    padding: 40px 32px;
-    max-width: 1100px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .admin-grid {
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 28px;
-    align-items: start;
-  }
+  .admin-content { flex: 1; padding: 40px 32px; max-width: 1100px; margin: 0 auto; width: 100%; }
+  .admin-grid { display: grid; grid-template-columns: 380px 1fr; gap: 28px; align-items: start; }
 
   .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 28px;
-    box-shadow: var(--shadow);
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow);
   }
-
   .card-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 20px;
-    display: flex; align-items: center; gap: 8px;
+    font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700;
+    color: var(--text); margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
   }
-  .card-title-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-  }
+  .card-title-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
 
-  .video-assign-section {
-    margin-top: 18px;
-  }
+  .video-assign-section { margin-top: 18px; }
   .video-assign-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-    display: block;
+    font-size: 12px; font-weight: 500; color: var(--text2);
+    text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; display: block;
   }
-  .video-checkboxes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
+  .video-checkboxes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .video-checkbox-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
-    border-radius: 8px;
-    background: var(--bg2);
-    cursor: pointer;
-    transition: var(--transition);
+    display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+    border-radius: 8px; background: var(--bg2); cursor: pointer; transition: var(--transition);
   }
   .video-checkbox-item:hover { background: var(--accent-light); }
-  .video-checkbox-item input[type="checkbox"] {
-    width: 15px; height: 15px;
-    accent-color: var(--accent);
-    cursor: pointer;
-  }
-  .video-checkbox-item label {
-    font-size: 13px;
-    color: var(--text2);
-    cursor: pointer;
-  }
+  .video-checkbox-item input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; }
+  .video-checkbox-item label { font-size: 13px; color: var(--text2); cursor: pointer; }
 
-  .select-all-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
+  .select-all-row { display: flex; gap: 8px; margin-bottom: 10px; }
   .btn-sm {
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: 1.5px solid var(--border);
-    background: transparent;
-    color: var(--text2);
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
-    font-family: 'DM Sans', sans-serif;
+    padding: 6px 12px; border-radius: 6px; border: 1.5px solid var(--border);
+    background: transparent; color: var(--text2); font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: var(--transition); font-family: 'DM Sans', sans-serif;
   }
   .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
 
   /* STUDENTS TABLE */
-  .students-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  .student-count {
-    font-size: 13px;
-    color: var(--text3);
-  }
+  .students-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .student-count { font-size: 13px; color: var(--text3); }
 
   .student-table { width: 100%; border-collapse: collapse; }
   .student-table th {
-    text-align: left;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text3);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    padding: 0 12px 12px;
+    text-align: left; font-size: 11px; font-weight: 600; color: var(--text3);
+    text-transform: uppercase; letter-spacing: 0.8px; padding: 0 12px 12px;
     border-bottom: 1px solid var(--border);
   }
   .student-table td {
-    padding: 14px 12px;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-    color: var(--text);
-    vertical-align: middle;
+    padding: 14px 12px; border-bottom: 1px solid var(--border);
+    font-size: 14px; color: var(--text); vertical-align: middle;
   }
   .student-table tr:last-child td { border-bottom: none; }
   .student-table tr:hover td { background: var(--bg2); }
 
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-  }
-  .status-badge.active {
-    background: var(--green-light);
-    color: var(--green);
-  }
-  .status-badge.disabled {
-    background: var(--bg2);
-    color: var(--text3);
-  }
-  .status-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-  }
+  .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+  .status-badge.active { background: var(--green-light); color: var(--green); }
+  .status-badge.disabled { background: var(--bg2); color: var(--text3); }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
   .action-btns { display: flex; gap: 6px; }
   .btn-action {
-    padding: 5px 12px;
-    border-radius: 6px;
-    border: 1.5px solid var(--border);
-    background: transparent;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
-    font-family: 'DM Sans', sans-serif;
+    padding: 5px 12px; border-radius: 6px; border: 1.5px solid var(--border);
+    background: transparent; font-size: 12px; font-weight: 500; cursor: pointer;
+    transition: var(--transition); font-family: 'DM Sans', sans-serif;
   }
   .btn-enable { color: var(--green); border-color: var(--green); }
   .btn-enable:hover { background: var(--green-light); }
@@ -502,381 +280,178 @@
   .btn-delete:hover { background: var(--red-light); border-color: var(--red); }
 
   .videos-pill {
-    display: inline-flex;
-    background: var(--accent-light);
-    color: var(--accent);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: var(--transition);
+    display: inline-flex; background: var(--accent-light); color: var(--accent);
+    font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px;
+    cursor: pointer; transition: var(--transition);
   }
   .videos-pill:hover { background: var(--accent); color: white; }
 
-  .empty-state {
-    text-align: center;
-    padding: 48px 24px;
-    color: var(--text3);
-  }
+  .empty-state { text-align: center; padding: 48px 24px; color: var(--text3); }
   .empty-state-icon { font-size: 40px; margin-bottom: 12px; }
   .empty-state-text { font-size: 14px; }
 
   .success-msg {
-    background: var(--green-light);
-    color: var(--green);
-    border: 1px solid rgba(45,106,79,0.2);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 13px;
-    margin-top: 12px;
-    display: none;
-    text-align: center;
+    background: var(--green-light); color: var(--green);
+    border: 1px solid rgba(45,106,79,0.2); border-radius: 8px;
+    padding: 10px 14px; font-size: 13px; margin-top: 12px; display: none; text-align: center;
   }
   .success-msg.show { display: block; animation: fadeIn 0.3s ease; }
-
   @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
   /* ══════════════════════════════════════
      STUDENT PORTAL
   ══════════════════════════════════════ */
-  #studentPage {
-    flex-direction: column;
-    min-height: 100vh;
-  }
-
+  #studentPage { flex-direction: column; min-height: 100vh; }
   .student-topbar {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 32px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
-    box-shadow: var(--shadow);
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 0 32px; height: 64px; display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow);
   }
-  .student-welcome {
-    font-size: 13px;
-    color: var(--text2);
-  }
+  .student-welcome { font-size: 13px; color: var(--text2); }
   .student-welcome strong { color: var(--text); }
+  .student-content { flex: 1; padding: 40px 32px; max-width: 1200px; margin: 0 auto; width: 100%; }
+  .section-header { margin-bottom: 28px; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+  .section-sub { font-size: 14px; color: var(--text3); margin-top: 4px; }
 
-  .student-content {
-    flex: 1;
-    padding: 40px 32px;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .section-header {
-    margin-bottom: 28px;
-  }
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: -0.5px;
-  }
-  .section-sub {
-    font-size: 14px;
-    color: var(--text3);
-    margin-top: 4px;
-  }
-
-  .lectures-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-  }
-
+  .lectures-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
   .lecture-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    cursor: pointer;
-    transition: var(--transition);
-    box-shadow: var(--shadow);
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); overflow: hidden; cursor: pointer;
+    transition: var(--transition); box-shadow: var(--shadow);
   }
-  .lecture-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--accent);
-  }
+  .lecture-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
 
   .lecture-thumb {
     height: 140px;
     background: linear-gradient(135deg, var(--bg2) 0%, var(--border) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
   }
   .lecture-thumb::before {
-    content: '';
-    position: absolute; inset: 0;
+    content: ''; position: absolute; inset: 0;
     background: linear-gradient(135deg, rgba(200,75,49,0.15) 0%, rgba(232,105,58,0.08) 100%);
   }
   .play-btn {
-    width: 52px; height: 52px;
-    background: var(--accent);
-    border-radius: 50%;
+    width: 52px; height: 52px; background: var(--accent); border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    position: relative; z-index: 1;
-    transition: var(--transition);
+    position: relative; z-index: 1; transition: var(--transition);
     box-shadow: 0 4px 16px rgba(200,75,49,0.4);
   }
   .play-btn svg { width: 20px; height: 20px; fill: white; margin-left: 3px; }
   .lecture-card:hover .play-btn { transform: scale(1.1); }
-
   .lecture-num {
-    position: absolute;
-    top: 12px; left: 12px;
-    background: rgba(0,0,0,0.5);
-    color: white;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
+    position: absolute; top: 12px; left: 12px;
+    background: rgba(0,0,0,0.5); color: white; font-size: 11px; font-weight: 600;
+    padding: 3px 8px; border-radius: 20px; letter-spacing: 0.5px;
   }
-
-  .lecture-info {
-    padding: 18px;
-  }
-  .lecture-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-  .lecture-meta {
-    font-size: 12px;
-    color: var(--text3);
-  }
+  .lecture-info { padding: 18px; }
+  .lecture-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .lecture-meta { font-size: 12px; color: var(--text3); }
 
   /* ══════════════════════════════════════
      VIDEO MODAL
   ══════════════════════════════════════ */
   .modal-overlay {
-    display: none;
-    position: fixed; inset: 0; z-index: 1000;
-    background: rgba(0,0,0,0.92);
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 20px;
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.92); align-items: center;
+    justify-content: center; flex-direction: column; padding: 20px;
   }
   .modal-overlay.active { display: flex; }
 
   .video-screen-block {
-    display: none;
-    position: fixed; inset: 0; z-index: 999;
-    background: #000;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 16px;
-    color: white;
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: #000; align-items: center; justify-content: center;
+    flex-direction: column; gap: 16px; color: white;
   }
   .video-screen-block.active { display: flex; }
   .video-screen-block-icon { font-size: 48px; }
-  .video-screen-block-text {
-    font-family: 'Syne', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: rgba(255,255,255,0.9);
-  }
-  .video-screen-block-sub {
-    font-size: 14px;
-    color: rgba(255,255,255,0.5);
-    text-align: center;
-  }
-  /* Resume button shown on the black screen when user returns to tab */
+  .video-screen-block-text { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: rgba(255,255,255,0.9); }
+  .video-screen-block-sub { font-size: 14px; color: rgba(255,255,255,0.5); text-align: center; }
+
   .btn-resume {
-    margin-top: 8px;
-    display: none;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 32px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-family: 'Syne', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: var(--transition);
-    letter-spacing: 0.3px;
+    margin-top: 8px; display: none; align-items: center; gap: 10px;
+    padding: 14px 32px; background: var(--accent); color: white; border: none;
+    border-radius: var(--radius); font-family: 'Syne', sans-serif; font-size: 16px;
+    font-weight: 700; cursor: pointer; transition: var(--transition); letter-spacing: 0.3px;
     box-shadow: 0 4px 20px rgba(200,75,49,0.4);
   }
-  .btn-resume:hover {
-    background: var(--accent2);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(200,75,49,0.5);
-  }
+  .btn-resume:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(200,75,49,0.5); }
   .btn-resume.visible { display: flex; }
   .btn-resume svg { width: 20px; height: 20px; fill: white; margin-left: 2px; }
 
-  .modal-inner {
-    width: 100%;
-    max-width: 960px;
-    position: relative;
-  }
-  .modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
-  .modal-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: white;
-  }
+  .modal-inner { width: 100%; max-width: 960px; position: relative; }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .modal-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: white; }
+  .modal-controls { display: flex; align-items: center; gap: 10px; }
 
-  /* ── MODAL CONTROLS (fullscreen + close grouped) ── */
-  .modal-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  /* ── FULLSCREEN BUTTON ── */
   .btn-fullscreen {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.1);
-    color: white;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1);
+    color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: var(--transition);
   }
-  .btn-fullscreen:hover {
-    background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.5);
-  }
-  .btn-fullscreen svg {
-    width: 18px; height: 18px;
-    fill: white;
-  }
+  .btn-fullscreen:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+  .btn-fullscreen svg { width: 18px; height: 18px; fill: white; }
 
   .modal-close {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.1);
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: var(--transition);
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1);
+    color: white; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: var(--transition);
   }
   .modal-close:hover { background: rgba(255,255,255,0.2); }
 
   .video-wrapper {
-    width: 100%;
-    aspect-ratio: 16/9;
-    border-radius: var(--radius);
-    overflow: hidden;
-    background: #000;
-    position: relative;
+    width: 100%; aspect-ratio: 16/9; border-radius: var(--radius);
+    overflow: hidden; background: #000; position: relative;
   }
-  .video-wrapper iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    pointer-events: auto;
-    isolation: isolate;
+  .video-wrapper iframe { width: 100%; height: 100%; border: none; pointer-events: auto; }
+
+  /* TOP SHIELD: transparent — blocks clicks on OneDrive toolbar (Share / Open in Browser) */
+  .toolbar-shield {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 48px; z-index: 10; background: transparent; cursor: default;
   }
 
-  /* TOP SHIELD: transparent overlay covering the OneDrive toolbar strip
-     Blocks all clicks (Share, Open in Browser, Download) without any visual change */
-  .toolbar-shield {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 48px;
-    z-index: 10;
-    background: transparent;
-    cursor: default;
+  /* Fullscreen styles */
+  #videoWrapper:fullscreen,
+  #videoWrapper:-webkit-full-screen,
+  #videoWrapper:-moz-full-screen,
+  #videoWrapper:-ms-fullscreen {
+    width: 100vw !important; height: 100vh !important;
+    aspect-ratio: unset !important; border-radius: 0 !important;
   }
+  #videoWrapper:fullscreen iframe,
+  #videoWrapper:-webkit-full-screen iframe,
+  #videoWrapper:-moz-full-screen iframe,
+  #videoWrapper:-ms-fullscreen iframe { width: 100% !important; height: 100% !important; }
 
   /* ══════════════════════════════════════
      EDIT VIDEOS MODAL
   ══════════════════════════════════════ */
   .edit-modal-overlay {
-    display: none;
-    position: fixed; inset: 0; z-index: 500;
-    background: rgba(0,0,0,0.6);
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,0.6); align-items: center; justify-content: center; padding: 20px;
   }
   .edit-modal-overlay.active { display: flex; }
   .edit-modal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 28px;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: var(--shadow-lg);
-    animation: slideUp 0.3s ease;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 28px; width: 100%; max-width: 420px;
+    box-shadow: var(--shadow-lg); animation: slideUp 0.3s ease;
   }
   .edit-modal-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    display: flex; align-items: center; justify-content: space-between;
+    font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700;
+    margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;
   }
   .edit-modal-close {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    border: 1.5px solid var(--border);
-    background: transparent;
-    color: var(--text2);
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    transition: var(--transition);
+    width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border);
+    background: transparent; color: var(--text2); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 14px; transition: var(--transition);
   }
   .edit-modal-close:hover { color: var(--text); }
 
-  /* ══════════════════════════════════════
-     UTILS
-  ══════════════════════════════════════ */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 20px 0;
-  }
-
-  /* Fullscreen: iframe fills screen */
-  #videoWrapper:fullscreen,
-  #videoWrapper:-webkit-full-screen,
-  #videoWrapper:-moz-full-screen,
-  #videoWrapper:-ms-fullscreen {
-    width: 100vw !important;
-    height: 100vh !important;
-    aspect-ratio: unset !important;
-    border-radius: 0 !important;
-  }
-  #videoWrapper:fullscreen iframe,
-  #videoWrapper:-webkit-full-screen iframe,
-  #videoWrapper:-moz-full-screen iframe,
-  #videoWrapper:-ms-fullscreen iframe {
-    width: 100% !important;
-    height: 100% !important;
-  }
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
 
   @media (max-width: 768px) {
     .admin-grid { grid-template-columns: 1fr; }
@@ -895,9 +470,7 @@
   <div class="theme-toggle-login">
     <div class="theme-toggle" onclick="toggleTheme()">
       <span class="theme-toggle-label" id="loginThemeLabel">Light</span>
-      <div class="toggle-track" id="loginToggle">
-        <div class="toggle-thumb"></div>
-      </div>
+      <div class="toggle-track" id="loginToggle"><div class="toggle-thumb"></div></div>
     </div>
   </div>
   <div class="login-card">
@@ -909,7 +482,6 @@
       <button class="tab-btn active" onclick="switchTab('student')">Student</button>
       <button class="tab-btn" onclick="switchTab('admin')">Admin</button>
     </div>
-
     <!-- Student Login -->
     <div id="studentLoginForm">
       <div class="form-group">
@@ -923,7 +495,6 @@
       <button class="btn-primary" onclick="studentLogin()">Sign In</button>
       <div class="error-msg" id="studentError">Invalid credentials or account disabled.</div>
     </div>
-
     <!-- Admin Login -->
     <div id="adminLoginForm" style="display:none;">
       <div class="form-group">
@@ -948,9 +519,7 @@
       <span class="topbar-badge">Admin</span>
       <div class="theme-toggle" onclick="toggleTheme()">
         <span class="theme-toggle-label" id="adminThemeLabel">Light</span>
-        <div class="toggle-track" id="adminToggle">
-          <div class="toggle-thumb"></div>
-        </div>
+        <div class="toggle-track" id="adminToggle"><div class="toggle-thumb"></div></div>
       </div>
       <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
@@ -981,7 +550,6 @@
         <div class="error-msg" id="createError">Username already exists.</div>
         <div class="success-msg" id="createSuccess">Student created successfully!</div>
       </div>
-
       <!-- Students List -->
       <div class="card">
         <div class="students-header">
@@ -1007,9 +575,7 @@
       <div class="student-welcome">Welcome, <strong id="studentName"></strong></div>
       <div class="theme-toggle" onclick="toggleTheme()">
         <span class="theme-toggle-label" id="studentThemeLabel">Light</span>
-        <div class="toggle-track" id="studentToggle">
-          <div class="toggle-thumb"></div>
-        </div>
+        <div class="toggle-track" id="studentToggle"><div class="toggle-thumb"></div></div>
       </div>
       <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
@@ -1028,12 +594,9 @@
   <div class="modal-inner">
     <div class="modal-header">
       <div class="modal-title" id="modalTitle">Lecture 1</div>
-      <!-- CHANGED: controls group with fullscreen + close -->
       <div class="modal-controls">
         <button class="btn-fullscreen" onclick="toggleFullscreen()" title="Toggle Fullscreen">
-          <svg id="fsIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zM3 13h2v4h4v2H3v-6zm16 4h-4v2h6v-6h-2v4z"/>
-          </svg>
+          <svg id="fsIcon" viewBox="0 0 24 24"><path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zM3 13h2v4h4v2H3v-6zm16 4h-4v2h6v-6h-2v4z"/></svg>
         </button>
         <button class="modal-close" onclick="closeVideo()">✕</button>
       </div>
@@ -1044,20 +607,18 @@
         allowfullscreen
         sandbox="allow-scripts allow-same-origin allow-forms"
         referrerpolicy="no-referrer"></iframe>
-      <!-- SHIELD: transparent overlay blocks clicks on OneDrive toolbar (Share / Open in Browser) -->
-      <div class="toolbar-shield" id="toolbarShield"
-        oncontextmenu="return false;"
-        onclick="return false;"></div>
+      <!-- Transparent shield: blocks clicks on OneDrive toolbar buttons -->
+      <div class="toolbar-shield" oncontextmenu="return false;" onclick="return false;"></div>
     </div>
   </div>
 </div>
 
-<!-- ══ VIDEO HIDDEN SCREEN ══ -->
+<!-- ══ VIDEO BLOCKED SCREEN ══ -->
 <div class="video-screen-block" id="videoScreenBlock">
   <div class="video-screen-block-icon">🔒</div>
-  <div class="video-screen-block-text" id="screenBlockText">Video Paused</div>
-  <div class="video-screen-block-sub" id="screenBlockSub">Switch tabs is not allowed while watching</div>
-  <button class="btn-resume" id="btnResume" onclick="resumeVideo()">
+  <div class="video-screen-block-text" id="screenBlockText">Recording Blocked</div>
+  <div class="video-screen-block-sub" id="screenBlockSub">Screen recording is not allowed.</div>
+  <button class="btn-resume visible" id="btnResume" onclick="resumeVideo()">
     <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
     Resume Video
   </button>
@@ -1076,36 +637,7 @@
   </div>
 </div>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
 <script>
-// ══════════════════════════════════════
-// FIREBASE CONFIG
-// ──────────────────────────────────────
-// SETUP INSTRUCTIONS (one time only):
-// 1. Go to https://console.firebase.google.com
-// 2. Click "Add project" → name it "kreya-courses" → Create
-// 3. Click "Realtime Database" in left menu → "Create Database"
-//    → Choose region → Start in TEST MODE → Enable
-// 4. Go to Project Settings (gear icon) → "Your apps" → </> (Web)
-//    → Register app → copy the firebaseConfig values below
-// 5. Replace the placeholder values below with your actual config
-// ══════════════════════════════════════
-const firebaseConfig = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
-  databaseURL:       "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
 // ══════════════════════════════════════
 // DATA
 // ══════════════════════════════════════
@@ -1124,50 +656,29 @@ const VIDEOS = [
   { id: 10, title: 'Lecture 10', src: 'https://1drv.ms/v/c/17f364c1c9541e36/IQSPF2yKffdAQZ6Rfr2T2WMmAQc-63u4bxkTb29peI06fzU' },
 ];
 
-// ── CHANGED: converts raw OneDrive share URL → embed URL
-// appends action=embedview + toolbar-suppression params
-// This hides Share, View in Browser, and Download buttons inside OneDrive player
-function toEmbedUrl(shareUrl) {
-  const sep = shareUrl.includes('?') ? '&' : '?';
-  return shareUrl
-    + sep
-    + 'action=embedview'
-    + '&wdAllowInteractivity=False'
-    + '&wdHideToolbar=True'
-    + '&wdDownloadButton=False'
-    + '&wdInConfigurator=True';
+// ── Converts OneDrive share link → embed URL (hides toolbar: Share, View in Browser, Download)
+function toEmbedUrl(url) {
+  const sep = url.includes('?') ? '&' : '?';
+  return url + sep + 'action=embedview&wdAllowInteractivity=False&wdHideToolbar=True&wdDownloadButton=False&wdInConfigurator=True';
 }
 
-// ── FIREBASE: load all students (returns Promise)
+// ══════════════════════════════════════
+// STORAGE — localStorage only
+// ══════════════════════════════════════
 function loadStudents() {
-  return db.ref('students').once('value').then(snap => {
-    const data = snap.val();
-    if (!data) return [];
-    return Object.values(data);
-  });
+  try { return JSON.parse(localStorage.getItem('kreya_students') || '[]'); } catch { return []; }
 }
+function saveStudents(s) { localStorage.setItem('kreya_students', JSON.stringify(s)); }
 
-// ── FIREBASE: save one student (upsert by username)
-function saveStudent(student) {
-  return db.ref('students/' + student.username).set(student);
-}
-
-// ── FIREBASE: delete one student
-function deleteStudentFromDB(username) {
-  return db.ref('students/' + username).remove();
-}
-
-// ── FIREBASE: get one student by username
-function getStudent(username) {
-  return db.ref('students/' + username).once('value').then(snap => snap.val());
-}
-
-let currentTab = 'student';
-let editingStudentUser = null;
-let videoPlaying = false;
-let isDark = false;
-let isFullscreen = false;
-let currentVideoId = null; // tracks which video is open so Resume can reload it
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let currentTab     = 'student';
+let editingStudent = null;
+let videoPlaying   = false;
+let currentVideoId = null;
+let isDark         = false;
+let isFullscreen   = false;
 
 // ══════════════════════════════════════
 // INIT
@@ -1176,24 +687,13 @@ document.addEventListener('DOMContentLoaded', () => {
   buildVideoCheckboxes('videoCheckboxes');
   const saved = localStorage.getItem('kreya_theme');
   if (saved === 'dark') setTheme(true);
-  // Enter on inputs
   document.getElementById('studentPass').addEventListener('keydown', e => { if(e.key==='Enter') studentLogin(); });
-  document.getElementById('adminPass').addEventListener('keydown', e => { if(e.key==='Enter') adminLogin(); });
-  // Fullscreen change listener
-  document.addEventListener('fullscreenchange', onFullscreenChange);
+  document.getElementById('adminPass').addEventListener('keydown',  e => { if(e.key==='Enter') adminLogin(); });
+  document.addEventListener('fullscreenchange',       onFullscreenChange);
   document.addEventListener('webkitfullscreenchange', onFullscreenChange);
-  document.addEventListener('mozfullscreenchange', onFullscreenChange);
-  document.addEventListener('MSFullscreenChange', onFullscreenChange);
+  document.addEventListener('mozfullscreenchange',    onFullscreenChange);
+  document.addEventListener('MSFullscreenChange',     onFullscreenChange);
 });
-
-// Live Firebase listener — admin table updates in real-time across all browsers
-function startAdminLiveSync() {
-  db.ref('students').on('value', snap => {
-    const data = snap.val();
-    const students = data ? Object.values(data) : [];
-    renderStudentsTableFromData(students);
-  });
-}
 
 // ══════════════════════════════════════
 // THEME
@@ -1202,12 +702,10 @@ function setTheme(dark) {
   isDark = dark;
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
   const label = dark ? 'Dark' : 'Light';
-  // Update all toggle tracks
   ['loginToggle','adminToggle','studentToggle'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('on', dark);
   });
-  // Update all labels
   ['loginThemeLabel','adminThemeLabel','studentThemeLabel'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.textContent = label;
@@ -1221,21 +719,21 @@ function toggleTheme() { setTheme(!isDark); }
 // ══════════════════════════════════════
 function switchTab(tab) {
   currentTab = tab;
-  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
     b.classList.toggle('active', (i===0 && tab==='student') || (i===1 && tab==='admin'));
   });
   document.getElementById('studentLoginForm').style.display = tab==='student' ? '' : 'none';
-  document.getElementById('adminLoginForm').style.display = tab==='admin' ? '' : 'none';
+  document.getElementById('adminLoginForm').style.display   = tab==='admin'   ? '' : 'none';
 }
 
 function adminLogin() {
-  const u = document.getElementById('adminUser').value.trim();
-  const p = document.getElementById('adminPass').value;
+  const u   = document.getElementById('adminUser').value.trim();
+  const p   = document.getElementById('adminPass').value;
   const err = document.getElementById('adminError');
   if (u === ADMIN.user && p === ADMIN.pass) {
-    showPage('adminPage');
-    startAdminLiveSync(); // real-time sync from Firebase
     err.classList.remove('show');
+    showPage('adminPage');
+    renderStudentsTable();
   } else {
     err.classList.add('show');
     shake(document.querySelector('#adminLoginForm .form-input'));
@@ -1243,30 +741,11 @@ function adminLogin() {
 }
 
 function studentLogin() {
-  const u = document.getElementById('studentUser').value.trim();
-  const p = document.getElementById('studentPass').value;
-  const err = document.getElementById('studentError');
-  const btn = document.querySelector('#studentLoginForm .btn-primary');
-
-  if (!u || !p) {
-    err.textContent = 'Please enter username and password.';
-    err.classList.add('show');
-    return;
-  }
-
-  btn.textContent = 'Signing in…';
-  btn.disabled = true;
-
-  getStudent(u).then(found => {
-    btn.textContent = 'Sign In';
-    btn.disabled = false;
-
-    if (!found || found.password !== p) {
-      err.textContent = 'Invalid username or password.';
-      err.classList.add('show');
-      shake(document.querySelector('#studentLoginForm .form-input'));
-      return;
-    }
+  const u      = document.getElementById('studentUser').value.trim();
+  const p      = document.getElementById('studentPass').value;
+  const err    = document.getElementById('studentError');
+  const found  = loadStudents().find(s => s.username === u && s.password === p);
+  if (found) {
     if (!found.active) {
       err.textContent = 'Your account has been disabled. Contact admin.';
       err.classList.add('show');
@@ -1276,12 +755,11 @@ function studentLogin() {
     document.getElementById('studentName').textContent = found.username;
     showPage('studentPage');
     renderLectures(found.videos || []);
-  }).catch(() => {
-    btn.textContent = 'Sign In';
-    btn.disabled = false;
-    err.textContent = 'Connection error. Check your internet and try again.';
+  } else {
+    err.textContent = 'Invalid username or password.';
     err.classList.add('show');
-  });
+    shake(document.querySelector('#studentLoginForm .form-input'));
+  }
 }
 
 function logout() {
@@ -1289,8 +767,8 @@ function logout() {
   showPage('loginPage');
   document.getElementById('studentUser').value = '';
   document.getElementById('studentPass').value = '';
-  document.getElementById('adminUser').value = '';
-  document.getElementById('adminPass').value = '';
+  document.getElementById('adminUser').value   = '';
+  document.getElementById('adminPass').value   = '';
 }
 
 function showPage(id) {
@@ -1309,7 +787,7 @@ function shake(el) {
 // ══════════════════════════════════════
 // VIDEO CHECKBOXES
 // ══════════════════════════════════════
-function buildVideoCheckboxes(containerId, selected=[]) {
+function buildVideoCheckboxes(containerId, selected = []) {
   const c = document.getElementById(containerId);
   if (!c) return;
   c.innerHTML = VIDEOS.map(v => `
@@ -1319,119 +797,92 @@ function buildVideoCheckboxes(containerId, selected=[]) {
     </label>
   `).join('');
 }
-
 function selectAllVideos(val) {
   document.querySelectorAll('#videoCheckboxes input[type="checkbox"]').forEach(cb => cb.checked = val);
 }
-
 function getSelectedVideos(containerId) {
-  return Array.from(document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`)).map(cb => parseInt(cb.value));
+  return Array.from(document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`))
+    .map(cb => parseInt(cb.value));
 }
 
 // ══════════════════════════════════════
-// ADMIN — STUDENTS (Firebase)
+// ADMIN — STUDENTS
 // ══════════════════════════════════════
 function createStudent() {
-  const u = document.getElementById('newStudentUser').value.trim();
-  const p = document.getElementById('newStudentPass').value;
+  const u     = document.getElementById('newStudentUser').value.trim();
+  const p     = document.getElementById('newStudentPass').value;
   const errEl = document.getElementById('createError');
   const sucEl = document.getElementById('createSuccess');
-  const btn = document.querySelector('.card .btn-primary');
   errEl.classList.remove('show');
   sucEl.classList.remove('show');
 
   if (!u || !p) { errEl.textContent = 'Username and password required.'; errEl.classList.add('show'); return; }
 
-  btn.textContent = 'Creating…';
-  btn.disabled = true;
-
-  // Check if username already exists
-  getStudent(u).then(existing => {
-    if (existing) {
-      errEl.textContent = 'Username already exists.';
-      errEl.classList.add('show');
-      btn.textContent = 'Create Student Account';
-      btn.disabled = false;
-      return;
-    }
-    const selected = getSelectedVideos('videoCheckboxes');
-    const newStudent = { username: u, password: p, active: true, videos: selected };
-    return saveStudent(newStudent).then(() => {
-      document.getElementById('newStudentUser').value = '';
-      document.getElementById('newStudentPass').value = '';
-      selectAllVideos(false);
-      sucEl.classList.add('show');
-      setTimeout(() => sucEl.classList.remove('show'), 3000);
-      btn.textContent = 'Create Student Account';
-      btn.disabled = false;
-      // Table auto-updates via live listener
-    });
-  }).catch(() => {
-    errEl.textContent = 'Error saving. Check your internet connection.';
+  const students = loadStudents();
+  if (students.find(s => s.username === u)) {
+    errEl.textContent = 'Username already exists.';
     errEl.classList.add('show');
-    btn.textContent = 'Create Student Account';
-    btn.disabled = false;
-  });
+    return;
+  }
+
+  students.push({ username: u, password: p, active: true, videos: getSelectedVideos('videoCheckboxes') });
+  saveStudents(students);
+
+  document.getElementById('newStudentUser').value = '';
+  document.getElementById('newStudentPass').value = '';
+  selectAllVideos(false);
+  sucEl.classList.add('show');
+  setTimeout(() => sucEl.classList.remove('show'), 3000);
+  renderStudentsTable();
 }
 
 function toggleStudent(username) {
-  getStudent(username).then(s => {
-    if (!s) return;
-    s.active = !s.active;
-    return saveStudent(s);
-    // Table auto-updates via live listener
-  });
+  const students = loadStudents();
+  const s = students.find(s => s.username === username);
+  if (s) s.active = !s.active;
+  saveStudents(students);
+  renderStudentsTable();
 }
 
 function deleteStudent(username) {
   if (!confirm(`Delete student "${username}"? This cannot be undone.`)) return;
-  deleteStudentFromDB(username);
-  // Table auto-updates via live listener
+  saveStudents(loadStudents().filter(s => s.username !== username));
+  renderStudentsTable();
 }
 
 function openEditModal(username) {
-  editingStudentUser = username;
-  getStudent(username).then(s => {
-    buildVideoCheckboxes('editVideoCheckboxes', s ? s.videos : []);
-    document.getElementById('editModal').classList.add('active');
-  });
+  editingStudent = username;
+  const s = loadStudents().find(s => s.username === username);
+  buildVideoCheckboxes('editVideoCheckboxes', s ? s.videos : []);
+  document.getElementById('editModal').classList.add('active');
 }
 function closeEditModal() {
   document.getElementById('editModal').classList.remove('active');
-  editingStudentUser = null;
+  editingStudent = null;
 }
 function saveVideoEdit() {
-  if (!editingStudentUser) return;
-  getStudent(editingStudentUser).then(s => {
-    if (!s) return;
-    s.videos = getSelectedVideos('editVideoCheckboxes');
-    return saveStudent(s);
-  }).then(() => {
-    closeEditModal();
-    // Table auto-updates via live listener
-  });
+  if (!editingStudent) return;
+  const students = loadStudents();
+  const s = students.find(s => s.username === editingStudent);
+  if (s) s.videos = getSelectedVideos('editVideoCheckboxes');
+  saveStudents(students);
+  renderStudentsTable();
+  closeEditModal();
 }
 
-// Called by Firebase live listener — renders table from already-fetched data
-function renderStudentsTableFromData(students) {
-  const c = document.getElementById('studentsTableContainer');
-  const countEl = document.getElementById('studentCount');
-  countEl.textContent = `${students.length} student${students.length!==1?'s':''}`;
+function renderStudentsTable() {
+  const students = loadStudents();
+  const c        = document.getElementById('studentsTableContainer');
+  document.getElementById('studentCount').textContent = `${students.length} student${students.length !== 1 ? 's' : ''}`;
 
   if (!students.length) {
-    c.innerHTML = `<div class="empty-state"><div class="empty-state-icon">👤</div><div class="empty-state-text">No students yet.</div></div>`;
+    c.innerHTML = `<div class="empty-state"><div class="empty-state-icon">👤</div><div class="empty-state-text">No students yet. Create one to get started.</div></div>`;
     return;
   }
-
   c.innerHTML = `
     <table class="student-table">
       <thead>
-        <tr>
-          <th>Username</th>
-          <th>Videos</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
+        <tr><th>Username</th><th>Videos</th><th>Status</th><th>Actions</th></tr>
       </thead>
       <tbody>
         ${students.map(s => `
@@ -1440,16 +891,14 @@ function renderStudentsTableFromData(students) {
             <td><span class="videos-pill" onclick="openEditModal('${s.username}')">${s.videos ? s.videos.length : 0} videos ✏️</span></td>
             <td>
               <span class="status-badge ${s.active ? 'active' : 'disabled'}">
-                <span class="status-dot"></span>
-                ${s.active ? 'Active' : 'Disabled'}
+                <span class="status-dot"></span>${s.active ? 'Active' : 'Disabled'}
               </span>
             </td>
             <td>
               <div class="action-btns">
                 ${s.active
                   ? `<button class="btn-action btn-disable" onclick="toggleStudent('${s.username}')">Disable</button>`
-                  : `<button class="btn-action btn-enable" onclick="toggleStudent('${s.username}')">Enable</button>`
-                }
+                  : `<button class="btn-action btn-enable"  onclick="toggleStudent('${s.username}')">Enable</button>`}
                 <button class="btn-action btn-delete" onclick="deleteStudent('${s.username}')">Delete</button>
               </div>
             </td>
@@ -1458,11 +907,6 @@ function renderStudentsTableFromData(students) {
       </tbody>
     </table>
   `;
-}
-
-// Legacy wrapper (kept for safety, not used anymore)
-function renderStudentsTable() {
-  loadStudents().then(students => renderStudentsTableFromData(students));
 }
 
 // ══════════════════════════════════════
@@ -1474,14 +918,11 @@ function renderLectures(videoIds) {
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><div class="empty-state-text">No videos assigned yet. Contact your admin.</div></div>`;
     return;
   }
-  const assigned = VIDEOS.filter(v => videoIds.includes(v.id));
-  grid.innerHTML = assigned.map(v => `
+  grid.innerHTML = VIDEOS.filter(v => videoIds.includes(v.id)).map(v => `
     <div class="lecture-card" onclick="openVideo(${v.id})">
       <div class="lecture-thumb">
         <span class="lecture-num">Lecture ${v.id}</span>
-        <div class="play-btn">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
+        <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       </div>
       <div class="lecture-info">
         <div class="lecture-title">${v.title}</div>
@@ -1492,257 +933,171 @@ function renderLectures(videoIds) {
 }
 
 // ══════════════════════════════════════
-// VIDEO PLAYER + SECURITY
+// VIDEO PLAYER
 // ══════════════════════════════════════
 function openVideo(id) {
   const v = VIDEOS.find(v => v.id === id);
   if (!v) return;
-  currentVideoId = id; // track for resume
+  currentVideoId = id;
   document.getElementById('modalTitle').textContent = v.title;
-
-  const frame = document.getElementById('videoFrame');
-  // CHANGED: use toEmbedUrl() to suppress OneDrive toolbar (Share, View in Browser, Download)
-  frame.src = toEmbedUrl(v.src);
-
+  document.getElementById('videoFrame').src = toEmbedUrl(v.src);
   document.getElementById('videoModal').classList.add('active');
-  videoPlaying = true;
-  // Hide resume button when freshly opening
   document.getElementById('btnResume').classList.remove('visible');
+  videoPlaying = true;
 }
 
 function closeVideo() {
-  // Exit fullscreen if active before closing
-  if (document.fullscreenElement || document.webkitFullscreenElement) {
-    exitFullscreen();
-  }
+  if (document.fullscreenElement || document.webkitFullscreenElement) exitFullscreen();
   document.getElementById('videoModal').classList.remove('active');
   document.getElementById('videoFrame').src = '';
-  videoPlaying = false;
-  currentVideoId = null;
   document.getElementById('videoScreenBlock').classList.remove('active');
   document.getElementById('btnResume').classList.remove('visible');
+  videoPlaying   = false;
+  currentVideoId = null;
 }
 
-// Called when user clicks Resume on the black screen
 function resumeVideo() {
   if (!currentVideoId) return;
   const v = VIDEOS.find(v => v.id === currentVideoId);
   if (!v) return;
-  // Reload the video
   document.getElementById('videoFrame').src = toEmbedUrl(v.src);
-  // Hide the black screen
   document.getElementById('videoScreenBlock').classList.remove('active');
   document.getElementById('btnResume').classList.remove('visible');
   videoPlaying = true;
 }
+
+// ══════════════════════════════════════
+// FULLSCREEN
+// ══════════════════════════════════════
 function toggleFullscreen() {
-  const wrapper = document.getElementById('videoWrapper');
+  const w = document.getElementById('videoWrapper');
   if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-    if (wrapper.requestFullscreen) {
-      wrapper.requestFullscreen();
-    } else if (wrapper.webkitRequestFullscreen) {
-      wrapper.webkitRequestFullscreen();
-    } else if (wrapper.mozRequestFullScreen) {
-      wrapper.mozRequestFullScreen();
-    } else if (wrapper.msRequestFullscreen) {
-      wrapper.msRequestFullscreen();
-    }
-  } else {
-    exitFullscreen();
-  }
+    (w.requestFullscreen || w.webkitRequestFullscreen || w.mozRequestFullScreen || w.msRequestFullscreen).call(w);
+  } else { exitFullscreen(); }
 }
-
 function exitFullscreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  } else if (document.mozCancelFullScreen) {
-    document.mozCancelFullScreen();
-  } else if (document.msExitFullscreen) {
-    document.msExitFullscreen();
-  }
+  (document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen).call(document);
 }
-
 function onFullscreenChange() {
   isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement);
-  const icon = document.getElementById('fsIcon');
-  if (isFullscreen) {
-    // Compress / exit icon
-    icon.innerHTML = '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>';
-  } else {
-    // Expand icon
-    icon.innerHTML = '<path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zM3 13h2v4h4v2H3v-6zm16 4h-4v2h6v-6h-2v4z"/>';
-  }
+  document.getElementById('fsIcon').innerHTML = isFullscreen
+    ? '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>'
+    : '<path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zM3 13h2v4h4v2H3v-6zm16 4h-4v2h6v-6h-2v4z"/>';
 }
-
 
 // ══════════════════════════════════════
 // SECURITY: KEYBOARD BLOCKS
-// Using capture:true so it fires BEFORE the browser handles the shortcut,
-// even when focus is inside the iframe (via blur/focus relay trick below)
+// capture:true fires before browser, even when iframe has focus
 // ══════════════════════════════════════
-function blockSecurityKeys(e) {
-  // DevTools shortcuts
+function blockKeys(e) {
   if (e.key === 'F12') { e.preventDefault(); e.stopPropagation(); return false; }
-  if (e.ctrlKey && e.shiftKey && ['I','J','C','K'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); return false; }
-  if (e.metaKey && e.altKey && ['I','J','C','U'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); return false; }
-  // View source / save / print
-  if (e.ctrlKey && ['u','s','p'].includes(e.key.toLowerCase())) { e.preventDefault(); e.stopPropagation(); return false; }
+  if (e.ctrlKey  && e.shiftKey && ['I','J','C','K'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); return false; }
+  if (e.metaKey  && e.altKey   && ['I','J','C','U'].includes(e.key.toUpperCase())) { e.preventDefault(); e.stopPropagation(); return false; }
+  if (e.ctrlKey  && ['u','s','p'].includes(e.key.toLowerCase())) { e.preventDefault(); e.stopPropagation(); return false; }
 }
-document.addEventListener('keydown', blockSecurityKeys, true);
+document.addEventListener('keydown', blockKeys, true);
 
-// Relay keyboard events from iframe back to parent so our blocker fires
-// even when the iframe has focus (the main gap that allowed Ctrl+click to work)
-const videoFrame = document.getElementById('videoFrame');
-videoFrame.addEventListener('load', () => {
+// Relay keyboard events from inside the iframe back to parent
+document.getElementById('videoFrame').addEventListener('load', () => {
   try {
-    // Re-attach focus to parent window whenever iframe loads
-    videoFrame.contentWindow.addEventListener('keydown', (e) => {
-      // Clone and dispatch on parent
-      const cloned = new KeyboardEvent('keydown', {
+    document.getElementById('videoFrame').contentWindow.addEventListener('keydown', e => {
+      document.dispatchEvent(new KeyboardEvent('keydown', {
         key: e.key, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey,
         metaKey: e.metaKey, altKey: e.altKey, bubbles: true, cancelable: true
-      });
-      document.dispatchEvent(cloned);
+      }));
     }, true);
-  } catch(err) {
-    // Cross-origin iframe — can't access contentWindow; shields handle it
-  }
+  } catch(_) { /* cross-origin — shields handle it */ }
 });
-
-// Tab switching is ALLOWED — students need to practice in other tabs (Salesforce course)
 
 // ══════════════════════════════════════
 // SECURITY: RIGHT-CLICK & DRAG
 // ══════════════════════════════════════
 document.addEventListener('contextmenu', e => { e.preventDefault(); return false; }, true);
-document.addEventListener('dragstart', e => { e.preventDefault(); return false; });
+document.addEventListener('dragstart',   e => { e.preventDefault(); return false; });
 
 // ══════════════════════════════════════
-// SECURITY: PRINT BLOCK
+// SECURITY: PRINT
 // ══════════════════════════════════════
 window.addEventListener('beforeprint', () => { document.body.style.display = 'none'; });
-window.addEventListener('afterprint', () => { document.body.style.display = ''; });
+window.addEventListener('afterprint',  () => { document.body.style.display = ''; });
 
 // ══════════════════════════════════════
-// SECURITY: SCREEN RECORDING BLOCK
-// Intercepts getDisplayMedia AND monitors for PiP / window capture
+// SECURITY: SCREEN RECORDING
 // ══════════════════════════════════════
 function triggerRecordingBlock() {
   if (!videoPlaying) return;
   document.getElementById('videoFrame').src = '';
   videoPlaying = false;
   document.getElementById('screenBlockText').textContent = 'Recording Blocked';
-  document.getElementById('screenBlockSub').textContent = 'Screen recording / capture is not allowed.';
+  document.getElementById('screenBlockSub').textContent  = 'Screen recording / capture is not allowed.';
   document.getElementById('btnResume').classList.add('visible');
   document.getElementById('videoScreenBlock').classList.add('active');
 }
-
-// Override getDisplayMedia (screen share / record)
 if (navigator.mediaDevices) {
-  const origGetDisplayMedia = navigator.mediaDevices.getDisplayMedia?.bind(navigator.mediaDevices);
-  if (origGetDisplayMedia) {
-    navigator.mediaDevices.getDisplayMedia = async function(constraints) {
-      triggerRecordingBlock();
-      // Still call original so browser doesn't throw, but video is already cleared
-      return origGetDisplayMedia(constraints);
-    };
+  const origDisplay = navigator.mediaDevices.getDisplayMedia?.bind(navigator.mediaDevices);
+  if (origDisplay) {
+    navigator.mediaDevices.getDisplayMedia = async c => { triggerRecordingBlock(); return origDisplay(c); };
   }
-  // Also block getUserMedia with video (some screen recorders use this)
-  const origGetUserMedia = navigator.mediaDevices.getUserMedia?.bind(navigator.mediaDevices);
-  if (origGetUserMedia) {
-    navigator.mediaDevices.getUserMedia = async function(constraints) {
-      if (constraints && constraints.video && videoPlaying) {
-        triggerRecordingBlock();
-      }
-      return origGetUserMedia(constraints);
-    };
+  const origUser = navigator.mediaDevices.getUserMedia?.bind(navigator.mediaDevices);
+  if (origUser) {
+    navigator.mediaDevices.getUserMedia = async c => { if (c && c.video && videoPlaying) triggerRecordingBlock(); return origUser(c); };
   }
 }
-
-// Monitor for Picture-in-Picture (another recording vector)
-document.addEventListener('enterpictureinpicture', () => {
-  triggerRecordingBlock();
-});
-
-// Periodic check: if any media stream is active and video is playing, block it
-setInterval(() => {
-  if (!videoPlaying) return;
-  // If browser has active screen capture stream, block
-  if (document.pictureInPictureElement) {
-    triggerRecordingBlock();
-  }
-}, 500);
+document.addEventListener('enterpictureinpicture', triggerRecordingBlock);
+setInterval(() => { if (document.pictureInPictureElement && videoPlaying) triggerRecordingBlock(); }, 500);
 
 // ══════════════════════════════════════
-// SECURITY: DEVTOOLS DETECTION (multi-signal)
+// SECURITY: DEVTOOLS DETECTION (3 methods)
 // ══════════════════════════════════════
 let devtoolsOpen = false;
 
-function onDevToolsOpen() {
-  if (devtoolsOpen) return; // already handled
+function onDevOpen() {
+  if (devtoolsOpen) return;
   devtoolsOpen = true;
-  if (videoPlaying) {
-    document.getElementById('videoFrame').src = '';
-    closeVideo();
-  }
-  // Blank the page content while devtools is open
+  if (videoPlaying) { document.getElementById('videoFrame').src = ''; closeVideo(); }
   document.body.style.filter = 'blur(20px)';
   document.body.style.pointerEvents = 'none';
 }
-
-function onDevToolsClosed() {
+function onDevClosed() {
   devtoolsOpen = false;
   document.body.style.filter = '';
   document.body.style.pointerEvents = '';
 }
 
-// Method 1: debugger timing (catches undocked devtools)
+// Method 1: debugger timing
 setInterval(() => {
   const t = performance.now();
   debugger; // eslint-disable-line no-debugger
-  const delta = performance.now() - t;
-  if (delta > 100) {
-    onDevToolsOpen();
-  } else {
-    onDevToolsClosed();
-  }
+  performance.now() - t > 100 ? onDevOpen() : onDevClosed();
 }, 500);
 
-// Method 2: toString override trick — very reliable, fires the moment devtools opens
-(function devtoolsToStringTrick() {
-  let count = 0;
-  const detector = /./;
-  detector.toString = function() {
-    count++;
-    if (count > 1) onDevToolsOpen();
-    return '';
-  };
+// Method 2: toString trick (fires the instant devtools opens)
+(function() {
+  let n = 0;
+  const d = /./;
+  d.toString = () => { n++; if (n > 1) onDevOpen(); return ''; };
   setInterval(() => {
-    count = 0;
-    console.log('%c', detector); // devtools calls toString on objects logged to console
-    setTimeout(() => { if (count === 0) onDevToolsClosed(); }, 50);
+    n = 0;
+    console.log('%c', d); // eslint-disable-line no-console
+    setTimeout(() => { if (n === 0) onDevClosed(); }, 50);
   }, 500);
 })();
 
-// Method 3: console.profiles trick
+// Method 3: console log timing
 setInterval(() => {
-  const before = new Date();
-  // eslint-disable-next-line no-console
-  console.log(new Array(9999).join('x'));
-  const after = new Date();
-  if (after - before > 20) onDevToolsOpen();
+  const t = Date.now();
+  console.log(new Array(9999).join('.')); // eslint-disable-line no-console
+  if (Date.now() - t > 20) onDevOpen();
 }, 1000);
 
 // ══════════════════════════════════════
 // SECURITY: COPY / CUT
 // ══════════════════════════════════════
 document.addEventListener('copy', e => e.preventDefault());
-document.addEventListener('cut', e => e.preventDefault());
+document.addEventListener('cut',  e => e.preventDefault());
 
 // ══════════════════════════════════════
-// SHAKE ANIMATION
+// ANIMATIONS
 // ══════════════════════════════════════
 const style = document.createElement('style');
 style.textContent = `@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)} }`;
